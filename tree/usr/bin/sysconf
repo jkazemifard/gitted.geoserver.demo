@@ -1,0 +1,508 @@
+#!/bin/bash
+#
+# SYSCONF tool - helper to manage sysconf repositories and get them live on an UNIX system
+#
+# Started on 2014-01 by JF Gigand <jf@geonef.fr>
+#
+# Add the following to your ~/.gitconfig or system-wise gitconfig
+# (replace "geonef" with any other GitHub user or community you need):
+# [url "https://github.com/geonef/"]
+#   insteadOf = sysconf:
+#
+# Initialize sysconf like this:
+#   git archive -v --remote=sysconf:base.git HEAD:tree/usr/bin sysconf | tar xO | bash -s init sysconf:base compile install update
+#
+# To remove installed symlinks:
+#   find /usr/bin/ /etc/ -type l -lname '/sysconf/*' | xargs rm
+
+######################################################################
+## FUNCTIONS
+
+show_usage()
+{
+    cat >&2 <<EOF
+Usage: $0 [-options] <command> [-options] [command_args]
+
+Where <command> is one of:
+
+    init GIT_REPOSITORY_PATH
+        Download config and recursive dependencies, which
+        are listed in the "deps" file located in the repository root dir.
+
+        Suppose GIT_REPOSITORY_PATH is sysconf:desktop.ubuntu
+            and SYSCONF_PATH is /sysconf, we will have:
+            /sysconf/sysconf.desktop.ubuntu : GIT repository clone
+            /sysconf/sysconf.desktop : GIT repository clone
+            /sysconf/sysconf.base : GIT repository clone
+            /sysconf/actual -> directory with file "deps" containing a single line:
+                base
+            /sysconf/repository_path : a file containing "sysconf:", which is used
+                for cloning missing deps, where "sysconf:" would get concatenated
+                with the dep and ".git"
+
+    fetch
+        Pull given config's repository from remote and its deps.
+        If CONFIG is not provided, the actual root config is used.
+
+    compile
+        (re)populates the general "compiled" directory with symlinks
+        from CONFIG and its deps (CONFIG has precedence).
+        If CONFIG is not provided, the actual root config is used.
+
+    install
+        Install the compiled directory content to target
+
+    update
+        Execute updates for given config and recursive deps
+
+    setup GIT_REPOSITORY_PATH
+        Performs: init, compile, install, update
+
+    pull
+        Performs: fetch, compile, install, update
+
+    add file_1 [file_2 [file_N]]
+	Move given (real) files to CONFIG's tree and replace them with a symlink.
+	This is a frequently used command as we move/"standardize" config/misc
+	files from real location (like /etc) to a sysconf repository
+
+    cmd command [command_args]
+	Execute given command in CONFIG's dir and recursive dep dirs.
+
+    list [pattern]
+        List compiled symlinks, optionally filtering pattern through 'grep'.
+
+Options are:
+    -c CONFIG
+        Use given configuration. Defaults to 'actual', which is usually a symlink
+        to the root configuration initialized with the command 'init'.
+
+Environment variables:
+    SYSCONF_PATH       path of config dir, defaults to '/sysconf'
+
+Typical conf repository include:
+
+    /deps
+        List of configs we depend on, one by line, comments not allowed.
+        Just bare names, will be append to our repository path's basedir
+        to form the path of dep repository.
+
+    /update.sh
+        Script executed for installing/updating the conf on target dir.
+
+EOF
+}
+
+message()
+{
+    [ "$verbose" = "1" ] && echo "$@" >&2
+}
+
+# Execute 'git', apt-get installing it if needed and make return error fatal
+safe_git()
+{
+    which git >/dev/null || apt-get install git
+    echo "$PWD > git $@"
+    git $@ || {
+	echo "$0: git command failed (fatal)"
+	exit 2
+    }
+}
+
+local_cp()
+{
+    if [ "$verbose" = "1" ]; then
+        cp -v $@
+    else
+        cp $@
+    fi
+}
+
+# Util: create $confpath if needed, fix attributes and 'cd' into it
+chdir_confpath()
+{
+    # In case $confpath does not yet exist
+    [ -d "$confpath" ] || {
+	mkdir "$confpath" && echo "Created confpath: $confpath"
+	target="/"
+	echo $target >$confpath/target
+
+	chgrp -R adm $confpath
+	chmod -R ug+w $confpath
+	find $confpath -type d -exec chmod g+s {} \;
+	echo "Fixed recursive owner group and permissions on: $confpath"
+    }
+
+    cd $confpath
+}
+
+# Util: remove $confpath/compiled and mkdir again
+reinit_compiled_dir()
+{
+    compiled=$confpath/compiled
+    [ -d $compiled ] && rm -rf $compiled
+    mkdir $compiled
+}
+
+# Used by commands "init" and "setup"
+init_sysconf()
+{
+    repos="$1"
+    [ "$repos" = "" ] && {
+	show_usage
+	exit -1
+    }
+
+    name=`basename "$repos" .git`
+    repos_root=`dirname "$repos"`
+    echo "*** Initializing $confpath from GIT dir '$repos_root', repository '$name'"
+
+    chdir_confpath
+    echo LALALA
+    pwd
+    echo $repos_root >repository_root
+
+    [ -h actual ] && rm actual
+    ln -s $name actual
+    echo Updated symlink "actual" to point to: $name
+
+    fetch_conf "$name" # "$repos_root"
+}
+
+# function usage: fetch_conf CONFIG [REPOSITORY_ROOT]
+fetch_conf()
+{
+    local config="$1"
+    chdir_confpath
+
+    [ -d $config ] && {
+	cd $config
+        if test -d .git; then
+            echo "*** Updating $confpath/$config"
+	    safe_git pull
+        else
+            echo "*** Not a git repository (but it's okay): $confpath/$config"
+        fi
+    } || {
+	# repos_root="$2"
+	# [ "$repos_root" = "" ] && {
+	#     cd actual
+	#     repos=`git remote show origin | grep Fetch | sed 's/  Fetch URL: //'`
+	#     repos_root=`dirname $repos`
+	#     cd -
+	# }
+        repos_root=$(cat $confpath/repository_root)
+	repos_path=$repos_root/$config.git
+	echo "*** Installing $confpath/$config from repository $repos_path"
+	safe_git clone $repos_path
+	cd $config
+    }
+
+    if test -d .git; then
+        safe_git submodule init
+        safe_git submodule update --recursive
+    fi
+
+    cd $confpath
+
+    for dep in `cat $config/deps`; do
+	fetch_conf $dep
+    done
+}
+
+# function usage: fetch_conf CONFIG [REPOSITORY_ROOT]
+compile_conf()
+{
+    local config="$1"
+    chdir_confpath
+
+    [ -d $config/tree ] && {
+	echo "Merging into '$confpath/compiled': '$confpath/$config/tree/*'"
+	local_cp -sr $confpath/$config/tree/* $confpath/compiled/
+    } || {
+	echo "Ignoring tree-less conf: $config"
+    }
+    for dep in `cat $config/deps`; do
+	compile_conf $dep
+    done
+}
+
+# Used by commands "install" and "update"
+install_compiled()
+{
+    echo "*** Installing..."
+    local_cp -r $confpath/compiled/* /
+}
+
+update_system_from_conf()
+{
+    local config="$1"
+    chdir_confpath
+
+    for dep in `cat $config/deps`; do
+	update_system_from_conf $dep
+    done
+
+    cd $confpath/$config
+    pwd
+    [ -r ./install.sh ] && {
+	echo "*** Executing updates for config: $config"
+	. ./install.sh
+    }
+}
+
+# function usage: add_file CONFIG FILE_PATH
+add_file()
+{
+    local config="$1"
+    local file="$2"
+    local target="$confpath/$config/tree$file"
+
+    [ -f "$file" ] || {
+	echo "warning: arg is not a regular file: $file"
+	return 1
+    }
+
+    [ -r "$target" ] && {
+	echo "warning: repository path already exists: $target"
+	return 2
+    }
+    dir=$(dirname "$target")
+    mkdir -p "$dir" && mv "$file" "$target" && ln -s "$target" "$file" && {
+	ls -l "$file"
+        echo
+        echo "Undo command:"
+        echo "  mv $target $file"
+    } || {
+	echo "warning: error moving '$file' to '$target' and replacing with symlink"
+    }
+}
+
+# function usage: run_cmd CONFIG COMMAND [arg1 [... argn]]
+run_cmd()
+{
+    local config="$1"
+    shift
+    local command="$1"
+    shift
+    chdir_confpath
+    cd $config
+    echo "*** In conf dir '$PWD' running: $command $@"
+    "$command" "$@"
+
+    for dep in `cat deps`; do
+	run_cmd "$dep" "$command" "$@"
+    done
+}
+
+sysconf_apt-get()
+{
+    options=""
+
+    if test "$arg_yes" = 1; then
+        # -o Dpkg::Options::='--force-confdef'
+        options="$options --assume-yes"
+    fi
+
+    [ "$verbose" = "1" ] || options="$options --quiet"
+    echo "Running: apt-get $options $@"
+    apt-get $options $@
+}
+
+######################################################################
+
+self=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)/`basename "${BASH_SOURCE[0]}"`
+confpath="$SYSCONF_PATH"
+
+if test "$confpath" = ""; then
+    #confpath=`dirname "$self"`
+    confpath=/sysconf
+fi
+
+# Options
+config=actual
+verbose=0
+arg_yes=0
+
+#config=`readlink $confpath/actual`
+
+# commandline=`getopt -o +hc: --long a-long,b-long:,c-long:: \
+#      -n 'example.bash' -- "$@"`
+
+# if [ $? != 0 ] ; then
+#     show_usage
+#     exit -1
+# fi
+
+# echo "commandline: $commandline"
+
+# eval set -- "$commandline"
+
+# while true ; do
+#     case "$1" in
+# 	# -a|--a-long) echo "Option a" ; shift ;;
+# 	-c|--config)
+#             config="$2"
+#             # echo "Configuration name, defaults to 'actual'" ;
+#             shift 2 ;;
+#         -h|--help) show_usage; exit;;
+# 	--) shift ; break ;;
+# 	*) echo "Internal error!" ; exit 1 ;;
+#     esac
+# done
+
+# echo "1=$1"
+# echo "2=$2"
+# echo "Remaining arguments:"
+# for arg do
+# echo '--> '"\`$arg'"
+# done
+
+nef_read_args()
+{
+    OPTIND=1
+    # message "command line is: $@"
+    while getopts "vyc:" opt "$@"; do
+        case $opt in
+            c)
+                # echo "-c was triggered, Parameter: $OPTARG" >&2
+                config="$OPTARG"
+                message "Using config: $config [$confpath/$config]"
+                ;;
+            y)
+                arg_yes=1
+                ;;
+            v)
+                verbose=1
+                ;;
+            :)
+                echo "Missing argument to option '$OPTARG'"
+                exit 1
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                ;;
+        esac
+    done
+    # echo "Setting OPTIND from $OPTIND to" $((OPTIND-1))
+}
+
+nef_read_args "$@"
+shift $((OPTIND-1))
+
+[ "$1" = "" ] && {
+    echo "error: command missing"
+    show_usage
+    exit -1
+}
+
+while [ "$1" != "" ]; do
+    command="$1"
+    shift
+    message "*** COMMAND: $command"
+
+    case "$command" in
+        init)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    init_sysconf "$1"
+            shift
+            ;;
+        fetch)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    fetch_conf "$config"
+	    ;;
+        compile)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    reinit_compiled_dir
+	    compile_conf "$config"
+	    ;;
+        install)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    install_compiled
+	    ;;
+        update)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    update_system_from_conf "$config"
+	    ;;
+        pull)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    fetch_conf "$config"
+	    reinit_compiled_dir
+	    compile_conf "$config"
+	    install_compiled
+	    update_system_from_conf "$config"
+	    ;;
+        setup)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+            url="$1"
+            shift
+
+	    init_sysconf "$url" && {
+	        setup_config=`readlink $confpath/actual`
+	        echo "setup: working on conf: $setup_config"
+
+	        reinit_compiled_dir && \
+		    compile_conf "$setup_config" && \
+		    install_compiled && \
+		    echo "setup: done"
+	    }
+	    ;;
+        add)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    while test "$1" != ""; do
+	        add_file $config "$1"
+	        shift
+	    done
+	    ;;
+        cmd)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+
+	    command="$1"
+	    shift
+
+	    run_cmd "$config" "$command" "$@"
+            shift $#
+	    ;;
+        list)
+            nef_read_args "$@"
+            shift $((OPTIND-1))
+            filter="$1"
+            shift $#
+
+            chdir_confpath
+            command="find compiled/"
+            if [ "x$filter" = "x" ]; then
+                $command
+            else
+                $command | grep "$filter"
+            fi
+            ;;
+        help)
+	    show_usage
+	    ;;
+        *)
+            echo "bad command: '$command'"
+	    show_usage
+	    exit -1
+	    ;;
+    esac
+
+done
+
+exit 0
