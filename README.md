@@ -93,15 +93,21 @@ Installation
 ============
 
 * Add the following to your ~/.gitconfig or system-wise gitconfig (replace "geonef" with any other GitHub user or community you need):
+```
     [url "https://github.com/geonef/"]
       insteadOf = sysconf:
+```
 
 * Run as root:
+```
 git archive -v --remote=sysconf:base.git HEAD:tree/usr/bin sysconf | tar xO | bash -s init sysconf:base compile install update
+```
 
 * Done! You may now run 'sysconf'. For curiosity:
+```
     # ls -l /usr/bin/sysconf
     lrwxrwxrwx 1 root root 40 mai   30 08:51 /usr/bin/sysconf -> /sysconf/sysconf.base/tree/usr/bin/sysconf
+```
 
 
 Quick FAQ
@@ -111,6 +117,10 @@ How to uninstall sysconf?
 -------------------------
 
 * First, remove all links which have been installed by sysconf:
+```
     # find /usr/bin/ /etc/ -type l -lname '/sysconf/*' | xargs rm
+```
 * Then, remove sysconf itself and it's repositories:
+```
     # rm -rf /sysconf
+```
