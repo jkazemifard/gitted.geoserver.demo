@@ -50,27 +50,36 @@ The standard
   * local system files: system-specific files which only change upon sysadmin op
   * shared systel files: same, but for cross-system shared files
   * other files we don't care about fow now: application variable data, multi-instance files, temporary files
+
 * suppose we want to extract /etc/nginx/shared.conf as part of our sys config:
+```
     # mkdir -p /sysconf/actual/tree/etc/nginx
     # mv /etc/nginx/shared.conf /sysconf/actual/tree/etc/nginx/shared.conf && \
         ln -s /sysconf/actual/tree/etc/nginx/shared.conf /etc/nginx/shared.conf
+```
 * now we have the sysconf profile "actual" in /sysconf/actual
   * that profile has one single file: (/sysconf/actual/tree)/etc/nginx/shared.conf
+
 * we can add other files the same way, that transform it to a GIT repository:
+```
     # cd /sysconf/actual
     # git init .
     # git add tree
     # git commit -m "first commit with nginx shared config"
+```
+
 * now we want to use a third-party profile named "db.mongodb" as well
   * we check it out in /sysconf/sysconf.db.mongodb: it contains:
     * tree/ : the files to install, like we explained before
     * deps : the list of dependencies, one name per line
     * install.sh : a shell script that must be run after the files have been installed
   * (re-)install "actual" and "sysconf.base" files
+```
     # mkdir /sysconf/compiled
     # cp -rs /sysconf/actual/tree/* /sysconf/compiled/
     # cp -rs /sysconf/sysconf.db.mongodb/tree/* /sysconf/compiled/
     # cp -r /sysconf/compiled/* /
+```
   * that's it!
     * as you can check, working directly on installed files is fine: the symlink targets a symlink in /sysconf/compiled/ which targets the original file in the sysconf profile, that can be managed by GIT
 
