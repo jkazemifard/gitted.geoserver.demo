@@ -6,7 +6,7 @@
 #
 # Add the following to your ~/.gitconfig or system-wise gitconfig
 # (replace "geonef" with any other GitHub user or community you need):
-# [url "https://github.com/geonef/"]
+# [url "https://github.com/geonef/sysconf."]
 #   insteadOf = sysconf:
 #
 # Initialize sysconf like this:
