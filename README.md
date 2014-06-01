@@ -20,8 +20,8 @@ be edited live from their usual place like /etc while keeping them in a GIT
 repository, that whole without depending on any software beyond our well-known
 Bourne-Again shell and the usual UNIX tools.
 
-It was conceived and implemented by Jean-Francois Gigand <jf@gigand.fr> in
-early 2014 and OpenSourced on GitHub a few months later.
+It was designed and implemented by Jean-Francois Gigand <jf@gigand.fr> in
+early 2014 and released as free software on GitHub a few months later.
 
 
 The story
