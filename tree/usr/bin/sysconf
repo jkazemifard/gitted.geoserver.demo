@@ -153,18 +153,24 @@ init_sysconf()
 	exit -1
     }
 
-    name=`basename "$repos" .git`
-    repos_root=`dirname "$repos"`
-    echo "*** Initializing $confpath from GIT dir '$repos_root', repository '$name'"
+    name=`echo "$repos" | sed 's/.*[:/]//' | sed 's/\.git$//'`
+    repos_root=`echo "$repos" | sed -E 's/(.*[:/]).*$/\1/'`
+    echo "*** Initializing $confpath from GIT base '$repos_root', repository '$name'"
 
     chdir_confpath
-    echo LALALA
-    pwd
     echo $repos_root >repository_root
 
-    [ -h actual ] && rm actual
-    ln -s $name actual
-    echo Updated symlink "actual" to point to: $name
+    if test -h actual; then
+        # Legacy: "actual" as a symlink
+        rm actual
+        ln -s $name actual
+        echo "Updated symlink 'actual' to point to: $name"
+    elif test -d actual; then
+        echo "'./actual' exists already, that's fine"
+    else
+        mkdir actual
+        echo $name >actual/deps
+    fi
 
     fetch_conf "$name" # "$repos_root"
 }
