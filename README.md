@@ -92,15 +92,9 @@ It's a 500-line shell script at (tree)/usr/bin/sysconf which help performing the
 Installation
 ============
 
-* Add the following to your ~/.gitconfig or system-wise gitconfig (replace "geonef" with any other GitHub user or community you need):
-```
-    [url "https://github.com/geonef/"]
-      insteadOf = sysconf:
-```
-
 * Run as root:
 ```
-git archive -v --remote=sysconf:base.git HEAD:tree/usr/bin sysconf | tar xO | bash -s init sysconf:base compile install update
+curl https://raw.githubusercontent.com/geonef/sysconf.base/master/tree/usr/bin/sysconf | bash -s init https://github.com/geonef/sysconf.base.git compile install update
 ```
 
 * Done! You may now run 'sysconf'. For curiosity:
@@ -109,6 +103,14 @@ git archive -v --remote=sysconf:base.git HEAD:tree/usr/bin sysconf | tar xO | ba
     lrwxrwxrwx 1 root root 40 mai   30 08:51 /usr/bin/sysconf -> /sysconf/sysconf.base/tree/usr/bin/sysconf
 ```
 
+Tips
+====
+
+* Add the following to your ~/.gitconfig or system-wise gitconfig (replace "geonef" with any other GitHub user or community you need):
+```
+    [url "https://github.com/geonef/"]
+      insteadOf = sysconf:
+```
 
 Quick FAQ
 =========
