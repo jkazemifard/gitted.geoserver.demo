@@ -34,13 +34,3 @@ EOF
         echo 'source /etc/network/interfaces.d/*.interfaces' >>/etc/network/interfaces
     }
 }
-
-######################################################################
-#
-# Same thing with /etc/hosts.d, /etc/gitconfig.d, ~/.ssh/config.d
-nef-update-hosts
-nef-update-gitconfig
-nef-update-ssh-config
-
-######################################################################
-# EOF
