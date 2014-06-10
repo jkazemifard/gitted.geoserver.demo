@@ -154,12 +154,12 @@ init_sysconf()
     }
 
     name=`echo "$repos" | sed 's/.*[:/]//' | sed 's/\.git$//'`
-    repos_root=`echo "$repos" | sed -E 's/(.*[:/]).*$/\1/' | sed 's/\/$//'`
-    echo "*** Initializing $confpath with GIT repository: $repos_root/$name"
-    echo "*** repos_root=$repos_root repository=$name"
+    repos_base=`echo "$repos" | sed -E 's/(.*[:/]).*$/\1/'`
+    echo "*** Initializing $confpath with GIT repository: $repos"
+    echo "*** repos_base=$repos_base repository=$name"
 
     chdir_confpath
-    echo $repos_root >repository_root
+    echo $repos_base >repository_base
 
     if test -h actual; then
         # Legacy: "actual" as a symlink
@@ -173,10 +173,10 @@ init_sysconf()
         echo $name >actual/deps
     fi
 
-    fetch_conf "$name" # "$repos_root"
+    fetch_conf "$name" # "$repos_base"
 }
 
-# function usage: fetch_conf CONFIG [REPOSITORY_ROOT]
+# function usage: fetch_conf CONFIG [REPOSITORY_BASE]
 fetch_conf()
 {
     local config="$1"
@@ -191,15 +191,15 @@ fetch_conf()
             echo "*** Not a git repository (but it's okay): $confpath/$config"
         fi
     } || {
-	# repos_root="$2"
-	# [ "$repos_root" = "" ] && {
+	# repos_base="$2"
+	# [ "$repos_base" = "" ] && {
 	#     cd actual
 	#     repos=`git remote show origin | grep Fetch | sed 's/  Fetch URL: //'`
-	#     repos_root=`dirname $repos`
+	#     repos_base=`dirname $repos`
 	#     cd -
 	# }
-        repos_root=$(cat $confpath/repository_root)
-	repos_path=$repos_root/$config.git
+        repos_base=$(cat $confpath/repository_base)
+	repos_path=${repos_base}${config}.git
 	echo "*** Installing $confpath/$config from repository $repos_path"
 	safe_git clone $repos_path
 	cd $config
@@ -217,7 +217,7 @@ fetch_conf()
     done
 }
 
-# function usage: fetch_conf CONFIG [REPOSITORY_ROOT]
+# function usage: fetch_conf CONFIG [REPOSITORY_BASE]
 compile_conf()
 {
     local config="$1"
