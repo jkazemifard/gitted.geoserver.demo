@@ -154,8 +154,9 @@ init_sysconf()
     }
 
     name=`echo "$repos" | sed 's/.*[:/]//' | sed 's/\.git$//'`
-    repos_root=`echo "$repos" | sed -E 's/(.*[:/]).*$/\1/'`
-    echo "*** Initializing $confpath from GIT base '$repos_root', repository '$name'"
+    repos_root=`echo "$repos" | sed -E 's/(.*[:/]).*$/\1/' | sed 's/\/$//'`
+    echo "*** Initializing $confpath with GIT repository: $repos_root/$name"
+    echo "*** repos_root=$repos_root repository=$name"
 
     chdir_confpath
     echo $repos_root >repository_root
