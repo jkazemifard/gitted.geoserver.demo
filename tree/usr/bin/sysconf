@@ -4,13 +4,12 @@
 #
 # Started on 2014-01 by JF Gigand <jf@geonef.fr>
 #
-# Add the following to your ~/.gitconfig or system-wise gitconfig
-# (replace "geonef" with any other GitHub user or community you need):
-# [url "https://github.com/geonef/sysconf."]
-#   insteadOf = sysconf:
-#
 # Initialize sysconf like this:
-#   git archive -v --remote=sysconf:base.git HEAD:tree/usr/bin sysconf | tar xO | bash -s init sysconf:base compile install update
+#   curl https://raw.githubusercontent.com/geonef/sysconf.base/master/tree/usr/bin/sysconf | bash -s init https://github.com/geonef/sysconf.base.git compile install update
+#
+# Or, from any repository:
+#   git archive -v --remote={GIT_REPOSITORY_URL} HEAD:tree/usr/bin sysconf | tar xO | bash -s init {GIT_REPOSITORY_URL}/{SYSCONF_PROFILE_REPOS_DIR} compile install update
+#
 #
 # To remove installed symlinks:
 #   find /usr/bin/ /etc/ -type l -lname '/sysconf/*' | xargs rm
