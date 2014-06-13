@@ -61,6 +61,7 @@ nef_array_from_lines()
     eval "declare -g -a $arrayname=( \"\${array[@]}\" )"
 }
 
+# usage: nef_template_apply_file TEMPLATE_PATH
 nef_template_apply_file()
 {
     template=`cat "$1"`
