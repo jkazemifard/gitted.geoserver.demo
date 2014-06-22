@@ -35,7 +35,7 @@ update_config()
 	echo "$configdir_d does not exist. $configpath won't be updated."
 	return
     }
-    
+
     echo "Generating $configpath out of $configdir_d..."
     echo
 
@@ -47,8 +47,8 @@ update_config()
 	filecontent=$(cat $f)
 	content="$content\n\n# $f\n$filecontent"
     done
-    echo "$SSH_CONFIG_GENERATED_HEADER\n$content" >$configfile
-    count=$(cat $configfile | wc -l)
+    echo "$SSH_CONFIG_GENERATED_HEADER\n$content" >$configpath
+    count=$(cat $configpath | wc -l)
     echo
     echo "Done with $count lines from $filecount file(s)."
     echo
@@ -58,5 +58,5 @@ update_config ~/.ssh/config
 
 [ "$(id -u)" = "0" ] && {
     update_config /etc/ssh/ssh_config
-    update_config /etc/ssh/sshd_config    
+    update_config /etc/ssh/sshd_config
 }
