@@ -32,6 +32,7 @@ nef_fatal() {
 
 nef_usage_error() {
     [ "$1" = "" ] || log "ERROR: $*"
+    echo
     show_usage
     exit 1;
 }
