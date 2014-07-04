@@ -1,4 +1,4 @@
-# Shell scripts utility functions               -*- shell-script -*-
+# Bash scripts utility functions               -*- shell-script -*-
 #
 # To be sourced from scripts like this:
 #   . /usr/share/sysconf.base/common.sh
@@ -9,13 +9,23 @@ log() {
 }
 
 nef_log() {
-    txt="$*"
-    line="$*"
-    date="`date +'%Y-%m-%d %H:%M:%S:%N' | sed -E 's/.{6}$//'`"
-    if test "$LOG_FILE" = ""; then
-        echo "$date: $line" >&2
+    [ "x$NEF_LOG_FILE" = x ] && NEF_LOG_FILE="$LOG_FILE" # Legacy compat
+
+    local txt="$*"
+    local line="$*"
+    local prefix=$(basename $0)
+
+    if [ "x$NEF_LOG_DATE" = xyes ]; then
+        date="`date +'%Y-%m-%d %H:%M:%S:%N' | sed -E 's/.{6}$//'`"
+        prefix="$prefix $date"
+    fi
+
+    line="$prefix: $line"
+
+    if [ "$NEF_LOG_FILE" = "" ]; then
+        echo "$line" >&2
     else
-        echo "$date: $line" | tee -a $LOG_FILE >&2
+        echo "$line" | tee -a $LOG_FILE >&2
     fi
 }
 
