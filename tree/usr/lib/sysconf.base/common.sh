@@ -11,6 +11,13 @@ log() {
 nef_log() {
     [ "x$NEF_LOG_FILE" = x ] && NEF_LOG_FILE="$LOG_FILE" # Legacy compat
 
+    if [ "x$1" = "x-" ]; then
+        while read; do
+            nef_log "$REPLY"
+        done
+        return
+    fi
+
     local txt="$*"
     local line="$*"
     local prefix=$(basename $0)
