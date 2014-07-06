@@ -58,7 +58,7 @@ update_config()
 install_site_user_config()
 {
     if [ -d /etc/ssh/user_ssh_config.d ]; then
-        [ -d ~/.ssh/config.d ] || mkdir ~/.ssh/config.d
+        [ -d ~/.ssh/config.d ] || mkdir -p ~/.ssh/config.d
         for f in /etc/ssh/user_ssh_config.d/*; do
             if [ ! -h ~/.ssh/config.d/`basename $f` ]; then
                 echo "Symlinking $f from ~/.ssh/config.d/"
