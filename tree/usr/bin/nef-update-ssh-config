@@ -15,6 +15,7 @@ die()
 update_config()
 {
     configpath="$1"
+    shift
     configfile=$(basename "$configpath")
     configdir=$(dirname "$configpath")
     configdir_d="$configdir/$configfile.d"
@@ -54,6 +55,20 @@ update_config()
     echo
 }
 
+install_site_user_config()
+{
+    if [ -d /etc/ssh/user_ssh_config.d ]; then
+        [ -d ~/.ssh/config.d ] || mkdir ~/.ssh/config.d
+        for f in /etc/ssh/user_ssh_config.d/*; do
+            if [ ! -h ~/.ssh/config.d/`basename $f` ]; then
+                echo "Symlinking $f from ~/.ssh/config.d/"
+                ln -s $f ~/.ssh/config.d/
+            fi
+        done
+    fi
+}
+
+install_site_user_config
 update_config ~/.ssh/config
 
 [ "$(id -u)" = "0" ] && {
