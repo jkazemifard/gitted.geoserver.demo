@@ -40,13 +40,14 @@ nef_log() {
 
     declare _opt_verbose=no
     declare _opt_debug=no
+    declare _opt_prepend=""
 
     while [ "$1" != "" ]; do
 
         case "$1" in
+            -p | --prepend) _opt_prepend="$2"; echo "prenddd..$2"; shift; shift ;;
             -v | --verbose) _opt_verbose=yes; shift ;;
             -d | --debug) _opt_debug=yes; shift ;;
-            -) break ;;
             -*) nef_log "nef_log(): bad option: $1"; shift ;;
             *) break ;;
         esac
@@ -55,13 +56,6 @@ nef_log() {
 
     [ $_opt_verbose = yes -a x$nef_opt_show_verbose = xno ] && return 0
     [ $_opt_debug = yes -a x$nef_opt_show_debug = xno ] && return 0
-
-    if [ "x$1" = "x-" ]; then
-        while read; do
-            nef_log "$REPLY"
-        done
-        return
-    fi
 
     local txt="$*"
     local line="$*"
@@ -72,13 +66,19 @@ nef_log() {
         prefix="$prefix $date"
     fi
 
-    line="$prefix: $line"
+    line="$prefix: ${_opt_prepend}${line}"
 
     if [ "$NEF_LOG_FILE" = "" ]; then
         echo "$line" >&2
     else
         echo "$line" | tee -a $LOG_FILE >&2
     fi
+}
+
+nef_log_pipe() {
+    while read; do
+        nef_log "$@" "$REPLY"
+    done
 }
 
 nef_cmd()
