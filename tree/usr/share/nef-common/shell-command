@@ -76,9 +76,20 @@ nef_log() {
 }
 
 nef_log_pipe() {
+    local _opt_stdout=no
+
+    while true; do
+        case "$1" in
+            --stdout) _opt_stdout=yes; shift ;;
+            *) break ;;
+        esac
+    done
+
     while read; do
         nef_log "$@" "$REPLY"
+        [ $_opt_stdout = yes ] && echo "$REPLY"
     done
+    return 0
 }
 
 nef_cmd()
