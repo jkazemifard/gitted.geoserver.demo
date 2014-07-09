@@ -94,27 +94,43 @@ nef_log_pipe() {
 
 nef_cmd()
 {
-    declare _opt_debug_name=
+    declare _opt_log_prefix=CMD
 
     while [ "$1" != "" ]; do
 
         case "$1" in
-            --debug-name) _opt_debug_name="$2"; shift; shift ;;
+            --log-prefix) _opt_log_prefix="$2"; shift; shift ;;
+            --) shift; break ;;
             -*) nef_log "nef_log(): bad option: $1"; shift ;;
             *) break ;;
         esac
 
     done
 
-    nef_log --debug "Running: " "$@"
-    [ "$x_opt_debug_name" = x ] \
-        || nef_log --debug "== ${_opt_debug_name} OUTPUT BEGIN ===================================="
-    "$@"
-    local _retval=$?
-    [ "$x_opt_debug_name" = x ] \
-        || nef_log --debug "== ${_opt_debug_name} OUTPUT END ======================================"
+    nef_log "${_opt_log_prefix}:" "$@"
+    _last_test_output=$(
+        {
+            # thanks to http://stackoverflow.com/questions/9112979/pipe-stdout-and-stderr-to-two-different-processes-in-shell-script
+            {
+                "$@" 2>&3 | nef_log_pipe --stdout -v "${_opt_log_prefix}: <stdout>:" >&4
+                # This is tricky: we print FAILURE=<code> to send it back to main (sub)shell
+                local _status=${PIPESTATUS[0]}
+                if [ $_status -ne 0 ]; then
+                    echo "FAILURE=$_status;" >&4
+                fi
+            } 3>&1 1>&2 | nef_log_pipe -v "${_opt_log_prefix}: <stderr>:"
+        }  4>&1
+    )
 
-    return $_retval
+    # The trick
+    local _line;
+    _line=$(echo "$_last_test_output" | tail -n 1 | grep "^FAILURE=");
+    if [ $? -eq 0 ]; then
+        local _status=$(echo $_line | sed -r 's/^FAILURE=([-0-9]);/\1/')
+        nef_fatal "command failed with status $_status:" "$@"
+    fi
+
+    return 0
 }
 
 nef_fatal() {
