@@ -3,7 +3,7 @@
 This page explains how to turn a web application into a Gitted-enabled
 GIT repository.
 
-* See: [README.md](README.md)
+* Parent: [README.md](../README.md)
 
 
 ## Initialize a GIT repository with the minimal Gitted sysconf

@@ -14,10 +14,10 @@ To address these issues, Gitted help you manage the website
 software *and* the changing data as one unique thing, which is stored
 as a GIT repository.
 
-### Usage instructions
+**Usage instructions**
 
-* See: [How to use a Gitted-powered GIT repository](README.USE.md)
-* See: [How to setup Gitted for an application](README.NEW.md)
+* [How to use a Gitted-powered GIT repository](doc/howto-manipulate.md)
+* [How to setup Gitted for an application](doc/howto-create-new.md)
 
 ## push-to-deplay: Machine and state out of GIT data
 
