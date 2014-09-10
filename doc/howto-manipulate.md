@@ -31,7 +31,7 @@ A *Gitted-powered repository* is a normal Git repository (hosted on
 GitHub or not) that has a ```gitted/``` directory and provides the
 ```gitted/gitted-client``` script along with
 [Sysconf](https://github.com/geonef/sysconf.base) profiles lying into
-```gitted/sysconf/```.
+```gitted/sysconf/``` .
 
 As a user, you don't need to dive into *Sysconf*. Just remember that
 ```gitted/sysconf/``` is responsible for setting-up the LXC container
