@@ -1,7 +1,6 @@
-* Parent page: [README.md](../README.md)
-* To learn how to create a new Gitted-powered repository, read:
+Useful links:
+[Homepage README](../README.md);
 [How to setup Gitted for an application](howto-create-new.md).
-
 
 # How to manipulate a Gitted-powered repository
 
