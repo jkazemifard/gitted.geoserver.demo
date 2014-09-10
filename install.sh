@@ -37,5 +37,4 @@ EOF
     }
 }
 
-
 sysconf-etc.d update
