@@ -28,6 +28,8 @@ its dependency [sysconf.base](https://github.com/geonef/sysconf.base):
 ```
 git subtree add -P gitted/sysconf/sysconf.gitted git@github.com:geonef/sysconf.gitted.git
 git subtree add -P gitted/sysconf/sysconf.base git@github.com:geonef/sysconf.base.git
+mkdir gitted/sysconf/actual
+echo sysconf.gitted >gitted/sysconf/actual/deps
 ```
 
 Make the symlink to ease the usage of gitted:
@@ -64,6 +66,17 @@ Everything is okay? Then destroy the container for now:
 lxc-destroy -f -n vm-atlas-base
 ```
 
-## Make your custom sysconf profile
+## Setup your custom system in gitted/sysconf/actual
 
-## 
+* Put into ```gitted/sysconf/actual/tree``` any file that you need on
+  the system. For example,
+  ```gitted/sysconf/actual/tree/etc/custom.conf``` will be installed
+  as ```/etc/custom.conf``` on the system.
+  
+* Put into ```gitted/sysconf/actual/install.sh``` any shell commands
+  that need to run to setup the system, for example ```apt-get
+  install``` commands, or generating config files
+
+## Update your README with how to run it
+
+* Take example on [atlas-base]  https://github.com/aire-atlas/atlas-base
