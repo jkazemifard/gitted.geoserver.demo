@@ -1,4 +1,4 @@
-# sysconf-etc.d: an manager of conf.d-style configurations
+# sysconf-etc.d: a manager for conf.d-style configurations
 
 ## Example
 
