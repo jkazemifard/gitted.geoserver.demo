@@ -4,13 +4,13 @@
 
 ## A way to centralize configuration files
 
-Suppose you have file, ```/etc/cron.daily/some-task```, that you need
-to share across different systems:
+Suppose you have a file, ```/etc/cron.daily/some-task```, that you need
+to share or backup across different systems:
 ```
 /etc/cron.daily/some-task
 ```
 
-The idea is to move the file to a central, versionned, tree in ```/sysconf```, and
+The idea is to move the file to a central versionned tree in ```/sysconf``` and
 replace ```/etc/cron.daily/some-task``` with a symbolic link pointing
 to it:
 ```
@@ -27,12 +27,13 @@ tracked easily in ```/sysconf```, because of the symbolic links.
 
 ### Separating between profiles
 
-In most cases, it is not enough to make a binary separation between
+In most cases, it is not enough to make a single separation between
 *system*-maintained files (managed by *apt-get*, *yum*, etc.) and
 custom *sysconf*-maintained files. Any system serves a purpose that
-can be structed in different layers.
+can be structed in different layers. These layers are called
+**profiles**.
 
-#### **Example**: a professional desktop system for a developer in a team
+#### **Example**: a developer team's desktop system
 ... can be devided into these layers:
 * host-specific: what is unique to this very system, for example
   ```/etc/hosts```; this layer is named: **actual**
@@ -40,8 +41,8 @@ can be structed in different layers.
   a ```/usr/share/git-hook/commit-msg``` script responsible for the
   validation of the team projects' commit messages; this layer is
   named: **team**
-* personal settings: what the dev shares with his home computer, for
-  example shell aliases in ```/etc/bash.bashrc```; this layer is
+* personal settings: what the developer shares with his home computer,
+  for example shell aliases in ```/etc/bash.bashrc```; this layer is
   named: **personal**
 
 Profiles lie in their respective directory into ```/sysconf```:
@@ -65,8 +66,8 @@ case lets a Sysconf profile define a file that is already defined by
 another profile.
 
 Suppose you have a profile *A* meant to customize profile *B* with a
-more specific version of a given file, say, ```/etc/bash.bashrc```,
-resulting in this ```/sysconf``` tree:
+more specific version of a given file, say, ```/etc/bash.bashrc```.
+We would have the following ```/sysconf``` tree:
 ```
 /sysconf/sysconf.A/tree/etc/bash.bashrc
 /sysconf/sysconf.B/tree/etc/bash.bashrc
@@ -77,7 +78,7 @@ The symbolic link ```/etc/bash.bashrc``` should point to *A*'s, not
 ```/sysconf/sysconf.A``` which specifies that *A* depends on *B*, that
 *A* **extends** *B*: *A*'s tree takes precedence over *B*'s tree.
 
-### ```actual```: the final, concrete profile
+### The root profile: ```actual```
 
 If profiles can extend each other, dependant profiles must be
 processed last. It is necessary to know what is the first profile: by
@@ -104,7 +105,7 @@ the profile that depend on them.
 
 In other words, if *A* depends on *B*, the order will be: (1)
 ```/sysconf/sysconf.A/install.sh```, then (2)
-```/sysconf/sysconf.B/install.sh```.
+```/sysconf/sysconf.B/install.sh``` .
 
 
 ## Splitting ```config``` into ```config.d/*.config```
