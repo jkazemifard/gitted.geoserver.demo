@@ -127,7 +127,7 @@ But there are programs distributed with a unique config file:
   ```/etc/gitconfig``` where included files need to be listed
   explicitely under the ```[include]``` section;
 * some do not allow any includes anyway: it is the case of
-  ```/etc/hosts``` that need to be updated in place with the
+  ```/etc/hosts``` which need to be updated in place with the
   concatenation of ```/etc/hosts/*.hosts```.
 
 
@@ -138,14 +138,19 @@ example) in a clean and non-obstrusive way.
 
 This is why Sysconf provides
 [sysconf-etc.d](tree/usr/bin/sysconf-etc.d), a generic tool that fix
-the required config files, by default:
+the required config files, which are by default:
+
 * ```/etc/hosts``` out of ```/etc/hosts/*.hosts```
+
 * ```/etc/ssh/ssh_config``` out of
   ```/etc/ssh/ssh_config.d/*.ssh_config```
+
 * ```/etc/ssh/sshd_config``` out of
   ```/etc/ssh/sshd_config.d/*.sshd_config```
+
 * ```/etc/gitconfig``` out of ```/etc/gitconfig.d/*.gitconfig```
 
 Other files can be acted upon, when specified through a
 ```.meta.conf``` file in ```/etc/sysconf/etc.d```: see
-[etc/sysconf/etc.d/README.md](tree/etc/sysconf/etc.d).
+[etc/sysconf/etc.d/README.md](tree/etc/sysconf/etc.d) for more
+information.
