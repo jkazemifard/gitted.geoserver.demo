@@ -99,8 +99,14 @@ branch).
 Instead of *master*, you can push any branch to any container. If you
 have a *dev* branch, for example, you can do:
 ```
-git push container2 dev
+git push container2 dev:master
 ```
+
+We write ```dev:master``` because the branch is still named
+```master``` on the container. Doing ```git push container2 dev```
+would create a ```dev``` branch on the container. It is fine, but it
+won't interact with the container state.
+
 
 ## Pulling updates from service containers
 
@@ -172,4 +178,4 @@ git push container2 latest-changes:master
 ```
 
 Done! You have successfully updated *container2* with the changes made
-in *conbtainer-name*.
+in *container-name*.
