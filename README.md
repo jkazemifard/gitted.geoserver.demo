@@ -14,6 +14,11 @@ To address these issues, Gitted help you manage the website
 software *and* the changing data as one unique thing, which is stored
 as a GIT repository.
 
+### Usage instructions
+
+* See: [How to use a Gitted-powered GIT repository](README.USE.md)
+* See: [How to setup Gitted for an application](README.NEW.md)
+
 ## push-to-deplay: Machine and state out of GIT data
 
 What GITTED (git-lxc) brings is:
@@ -66,8 +71,3 @@ _/usr/share/gitted/export/_. It is quite easy to write new ones
 (application data, for example) as GITTED provides like a framework for
 it. The magic is about the easiness and interoperability to handle the
 whole thing, compared to the complexity.
-
-## How to use Gitted
-
-* See: [How to use a Gitted-powered GIT repository](README.USE.md)
-* See: [How to setup Gitted for an application](README.NEW.md)
