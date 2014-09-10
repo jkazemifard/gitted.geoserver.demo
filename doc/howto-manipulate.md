@@ -1,3 +1,8 @@
+* Parent page: [README.md](../README.md)
+* To learn how to create a new Gitted-powered repository, read:
+[How to setup Gitted for an application](howto-create-new.md).
+
+
 # How to manipulate a Gitted-powered repository
 
 A [Gitted](https://github.com/geonef/sysconf.gitted)-powered Git
@@ -21,8 +26,6 @@ repository enables you to easily:
 This page explains how to use Gitted for these use cases and explains
 the logic from that perspective.
 
-To learn how to create a new Gitted-powered repository, read:
-[How to setup Gitted for an application](howto-create-new.md).
 
 
 ## Get the service running
