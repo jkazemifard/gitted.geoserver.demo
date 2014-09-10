@@ -10,14 +10,14 @@ This software is packaged using
 containers to make it run, and GIT for updates, backups and data sync.
 
 * [LXC](https://linuxcontainers.org/) pseudo-virtualization technology
-  running on Linux
+  running on Linux ;
   
 * [GIT](http://git-scm.com/) is the #1 distributed version control
-  system
+  system ;
 
 * [GITTED](https://github.com/geonef/gitted) is a shell-based tool
-  that let you manage the atlas through ```git pull``` and ```git
-  push``` commands
+  that let you manage the service's data through ```git pull``` and
+  ```git push``` commands.
 
 ## Quick start instructions
 

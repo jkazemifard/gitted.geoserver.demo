@@ -79,4 +79,5 @@ lxc-destroy -f -n vm-atlas-base
 
 ## Update your README with how to run it
 
-* Take example on [atlas-base]  https://github.com/aire-atlas/atlas-base
+* See the [Example README](example-of-readme.md) and update your own
+  with the instructions on how to run the service.
