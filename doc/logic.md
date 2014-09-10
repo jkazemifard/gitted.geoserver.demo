@@ -120,12 +120,15 @@ files, for example: ```/etc/nginx/sites-available/```,
 ```/etc/logrotate.d/```, etc.
 
 But there are programs distributed with a unique config file:
+
 * some allow include directives with wildcards: it is the case of
 ```/etc/network/interfaces``` to which we can add: ```source
 /etc/network/interfaces.d/*.interfaces```;
+
 * some allow include directives without wildcard: it is the case of
   ```/etc/gitconfig``` where included files need to be listed
   explicitely under the ```[include]``` section;
+
 * some do not allow any includes anyway: it is the case of
   ```/etc/hosts``` which need to be updated in place with the
   concatenation of ```/etc/hosts/*.hosts```.
@@ -141,13 +144,8 @@ This is why Sysconf provides
 the required config files, which are by default:
 
 * ```/etc/hosts``` out of ```/etc/hosts/*.hosts```
-
-* ```/etc/ssh/ssh_config``` out of
-  ```/etc/ssh/ssh_config.d/*.ssh_config```
-
-* ```/etc/ssh/sshd_config``` out of
-  ```/etc/ssh/sshd_config.d/*.sshd_config```
-
+* ```/etc/ssh/ssh_config``` out of ```/etc/ssh/ssh_config.d/*.ssh_config```
+* ```/etc/ssh/sshd_config``` out of ```/etc/ssh/sshd_config.d/*.sshd_config```
 * ```/etc/gitconfig``` out of ```/etc/gitconfig.d/*.gitconfig```
 
 Other files can be acted upon, when specified through a
