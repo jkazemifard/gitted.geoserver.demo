@@ -1,32 +1,10 @@
-         ___           ___           ___           ___           ___           ___           ___     
-        /\  \         |\__\         /\  \         /\  \         /\  \         /\__\         /\  \    
-       /::\  \        |:|  |       /::\  \       /::\  \       /::\  \       /::|  |       /::\  \   
-      /:/\ \  \       |:|  |      /:/\ \  \     /:/\:\  \     /:/\:\  \     /:|:|  |      /:/\:\  \  
-     _\:\~\ \  \      |:|__|__   _\:\~\ \  \   /:/  \:\  \   /:/  \:\  \   /:/|:|  |__   /::\~\:\  \ 
-    /\ \:\ \ \__\     /::::\__\ /\ \:\ \ \__\ /:/__/ \:\__\ /:/__/ \:\__\ /:/ |:| /\__\ /:/\:\ \:\__\
-    \:\ \:\ \/__/    /:/~~/~    \:\ \:\ \/__/ \:\  \  \/__/ \:\  \ /:/  / \/__|:|/:/  / \/__\:\ \/__/
-     \:\ \:\__\     /:/  /       \:\ \:\__\    \:\  \        \:\  /:/  /      |:/:/  /       \:\__\  
-      \:\/:/  /     \/__/         \:\/:/  /     \:\  \        \:\/:/  /       |::/  /         \/__/  
-       \::/  /                     \::/  /       \:\__\        \::/  /        /:/  /                 
-        \/__/                       \/__/         \/__/         \/__/         \/__/                  
-  
+# Original need and requirements of this project
 
+* See also: [Logic of Sysconf](logic.md), [Home README](../README.md)
 
-What is SYSCONF?
-================
+## The story
 
-SYSCONF is a sysadmin practice that let config and script files be used and
-be edited live from their usual place like /etc while keeping them in a GIT
-repository, that whole without depending on any software beyond our well-known
-Bourne-Again shell and the usual UNIX tools.
-
-It was designed and implemented by Jean-Francois Gigand <jf@gigand.fr> in
-early 2014 and released as free software on GitHub a few months later.
-
-
-The story
----------
-* As life goes, sysadmins tend to administrate more servers and bigger requirements.
+ * As life goes, sysadmins tend to administrate more servers and bigger requirements.
 
 * The question is: how do we put things in common, reuse scripts and configs? Between servers of course, but ideally between people, be it private like colleagues or public like on GitHub
 
@@ -43,8 +21,8 @@ The story
   * **no extra dependency**: of course, using Python means that Python has to be installed on every managed system. Same for nodejs, PHP, java, anything. Instead, the tool is what will manage such installations. So we need to rely to the basic common platform tools available: GNU/Linux with bash and coreutils.
 
 
-The standard
-------------
+## The standard
+
 * on the filesystem, separate clearly between:
   * distribution files: those which get upgraded with the distribution
   * local system files: system-specific files which only change upon sysadmin op
@@ -82,47 +60,3 @@ The standard
 ```
   * that's it!
     * as you can check, working directly on installed files is fine: the symlink targets a symlink in /sysconf/compiled/ which targets the original file in the sysconf profile, that can be managed by GIT
-
-
-The tool
---------
-It's a 500-line shell script at (tree)/usr/bin/sysconf which help performing the commands to manage the sysconf profiles according to the standard, using SSH to clone and pull from remotes. It gets more useful as multiple package and dependencies are used in /sysconf.
-
-
-Installation
-============
-
-* Run as root:
-```
-curl https://raw.githubusercontent.com/geonef/sysconf.base/master/tree/usr/bin/sysconf | bash -s init https://github.com/geonef/sysconf.base.git compile install update
-```
-
-* Done! You may now run 'sysconf'. For curiosity:
-```
-    # ls -l /usr/bin/sysconf
-    lrwxrwxrwx 1 root root 40 mai   30 08:51 /usr/bin/sysconf -> /sysconf/sysconf.base/tree/usr/bin/sysconf
-```
-
-Tips
-====
-
-* Add the following to your ~/.gitconfig or system-wise gitconfig (replace "geonef" with any other GitHub user or community you need):
-```
-    [url "https://github.com/geonef/"]
-      insteadOf = sysconf:
-```
-
-Quick FAQ
-=========
-
-How to uninstall sysconf?
--------------------------
-
-* First, remove all links which have been installed by sysconf:
-```
-    # find /usr/bin/ /etc/ -type l -lname '/sysconf/*' | xargs rm
-```
-* Then, remove sysconf itself and it's repositories:
-```
-    # rm -rf /sysconf
-```
