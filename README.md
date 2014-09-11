@@ -8,7 +8,7 @@ manage, backup and sync.
 ```/etc/cron.daily/some-task```) to
 ```/sysconf/actual/tree/etc/cron.daily/some-task``` and replace the
 original file with a symbolic link pointing toward its location in
-```/sysconf/```.
+```/sysconf/``` .
 
 # Just a bash script
 
