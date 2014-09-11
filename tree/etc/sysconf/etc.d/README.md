@@ -123,20 +123,20 @@ Print details about how *&lt;name&gt;*'s target is to be generated.
 *&lt;name&gt;* is not a path, but a name, that correspond to the meta conf
 ```/etc/sysconf/etc.d/<name>.meta.conf``` .
 
-If *<name>* is omitted, all names are shown.
+If *&lt;name&gt;* is omitted, all names are shown.
 
 #### ```sysconf-etc.d update <name>```
 
-Generate/update the target file for *<name>*.
-*<name>* is not a path, but a name, that correspond to the meta conf
+Generate/update the target file for *&lt;name&gt;*.
+*&lt;name&gt;* is not a path, but a name, that correspond to the meta conf
 ```/etc/sysconf/etc.d/<name>.meta.conf``` .
 
-If *<name>* is omitted, all names are processed.
+If *&lt;name&gt;* is omitted, all names are processed.
 
 ### Format of ```.meta.conf``` files
 
 A meta file is stored at ```/etc/sysconf/etc.d/<name>.meta.conf```
-where *<name>* represents the config *name* to be used with the
+where *&lt;name&gt;* represents the config *name* to be used with the
 [sysconf-etc.d](../../../usr/bin/sysconf-etc.d) command.
 
 The general syntax is actually that of the *bash(1)* shell. The file
