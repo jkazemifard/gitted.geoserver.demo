@@ -18,8 +18,8 @@ provides commands to manipulate the ```/sysconf``` tree:
 * ```sysconf compile``` : build all symbolic links into ```/sysconf/compiled```
 * ```sysconf install``` : install ```/sysconf/compiled``` into the target (```/``` by default)
 * ```sysconf update``` : run all profiles' ```install.sh``` script
-* ```sysconf add``` : move the given file to Sysconf
-* ```sysconf list``` : list all compile symlinks
+* ```sysconf add``` : move the given file to Sysconf and replace with symbolic link
+* ```sysconf list``` : list compiled symlinks
 
 For detailed information, execute ```sysconf --help``` or read the
 [script's source code](tree/usr/bin:sysconf) directly.

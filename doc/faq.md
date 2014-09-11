@@ -34,11 +34,11 @@ or ```~/.bashrc```.
 
 Yes.
 
-Edit ```/sysconf/target``` (or $SYSCONF_PATH/target if Sysconf is
+Edit ```/sysconf/target``` (or ```$SYSCONF_PATH/target``` if Sysconf is
 located somewhere else) and change its content from ```/``` to the
 directory you want the symlinks be installed into.
 
-When you are done, run ```sysconf install``` to install the symlink in
+When you are done, run ```sysconf install``` to install the symlinks on
 the new location. You should probably clean any old symlinks: see *How
 to uninstall sysconf* below.
 
@@ -51,11 +51,10 @@ Of course if you can't write to ```/```, you need to customize
 ```SYSCONF_PATH``` and ```$SYSCONF_PATH/target``` like explained
 above.
 
-Using Sysconf at user level is a common use case, to manage user
+Using Sysconf at the user level is a common use case, to manage user
 config files like ```~/.bashrc```, ```~/.ssh/config```,
-```~/.gitconfig```...
+```~/.gitconfig```, etc.
 
-In order to do that, you 
 For that use, set ```SYSCONF_PATH``` to ```/home/toto/sysconf``` (for
 example) and put a single line ```/home/toto``` into the file:
 ```/home/toto/sysconf/target```. Append the profiles you need and run

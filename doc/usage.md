@@ -1,9 +1,5 @@
 # How to use Sysconf
-Other links:
-* [Specification of Sysconf directories](specification.md)
-* [Logic behind Sysconf explained](logic.md)
-* [Original project requirements](requirements.md)
-* [FAQ](faq.md)
+See also: [Logic behind Sysconf explained](logic.md)
 
 ## Install ```sysconf.base```
 ```
