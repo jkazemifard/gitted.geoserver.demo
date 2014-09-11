@@ -318,7 +318,7 @@ gitted_ensure_container_running() {
 
     lxc-attach --clear-env -n $_name -- test -d /sysconf || {
         nef_log "sysconf is not defined. extracting from commit $gitted_executive_treeish"
-        git archive $gitted_executive_treeish gitted/sysconf/ \
+        git archive $gitted_executive_treeish sysconf/ \
             | lxc-attach --clear-env -n $_name -- tar x -C / --strip-components=1 >&2
         lxc-attach --clear-env -n $_name -- \
             /sysconf/sysconf.base/tree/usr/bin/sysconf compile install update \
