@@ -1,4 +1,4 @@
-# sysconf-etc.d: a manager for the ```conf.d``` pattern
+# sysconf-etc.d – for the ```conf.d``` pattern
 
 ## Splitting ```config``` into ```config.d/*.config```
 
