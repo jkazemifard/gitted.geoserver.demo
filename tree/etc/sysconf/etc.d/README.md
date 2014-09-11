@@ -78,7 +78,7 @@ SYSCONF_ETC_CONFIG_BEGIN="[include]"
 SYSCONF_ETC_CONFIG_EXPRESSION="  path = "
 ```
 
-... then you can run [sysconf-etc.d](../../../usr/bin/sysconf-etc.d)]:
+... then you can run [sysconf-etc.d](../../../usr/bin/sysconf-etc.d):
 ```
 sysconf-etc.d update gitconfig
 ```
@@ -91,3 +91,107 @@ And it will generate this following **```/etc/gitconfig```**:
   path = /etc/gitconfig.d/colors.gitconfig
   path = /etc/gitconfig.d/alias.gitconfig
 ```
+
+
+## Specification
+
+### Usage of ```sysconf-etc.d```
+
+#### ```sysconf-etc.d help```
+
+Print the list of available commands. Running ```sysconf-etc.d```
+(with no argument) works as well.
+
+#### ```sysconf-etc.d list```
+
+Print the list of configuration files which are declared as *managed*
+by a definition in a ```/etc/sysconf/etc.d/xx.meta.conf``` file.
+
+Usage example:
+```
+# sysconf-etc.d list
+sysconf-etc.d: gitconfig: /etc/sysconf/etc.d/gitconfig.meta.conf
+sysconf-etc.d: hosts: /etc/sysconf/etc.d/hosts.meta.conf
+sysconf-etc.d: mongodb: /etc/sysconf/etc.d/mongodb.meta.conf
+sysconf-etc.d: ssh_config: /etc/sysconf/etc.d/ssh_config.meta.conf
+sysconf-etc.d: sshd_config: /etc/sysconf/etc.d/sshd_config.meta.conf
+```
+
+#### ```sysconf-etc.d status <name>```
+
+Print details about how the file *<name>* is to be generated.
+*<name>* is not a path, but a name, that correspond to the meta conf
+```/etc/sysconf/etc.d/<name>.meta.conf``` .
+
+If *<name>* is omitted, all names are shown.
+
+#### ```sysconf-etc.d update <name>```
+
+Generate/update the target file for *<name>*.
+*<name>* is not a path, but a name, that correspond to the meta conf
+```/etc/sysconf/etc.d/<name>.meta.conf``` .
+
+If *<name>* is omitted, all names are processed.
+
+### Format of ```.meta.conf``` files
+
+A meta file is stored at ```/etc/sysconf/etc.d/<name>.meta.conf```
+where *<name>* represents the config *name* to be used with the
+[sysconf-etc.d](../../../usr/bin/sysconf-etc.d) command.
+
+The general syntax is actually that of the *bash(1)* shell. The file
+does not need execution permissions as it is sourced by
+*sysconf-etc.d*.
+
+A meta-file is declarative: it needs to declare shell variable that
+tell *sysconf-etc.d* how to generate the target config file.
+
+Comments begin with a hash character (#). Any valid shell instruction
+is allowed, if you ever need to make dynamic processing.
+
+There are **2 mandatory variables**:
+* ```SYSCONF_ETC_CONFIG_TARGET_CONF```: absolute path of target config
+  file that need to be generated/updated
+* ```SYSCONF_ETC_CONFIG_TYPE```: indicates what method that is used to
+  generate the target file: ```concatenation``` or ```reference```.
+  
+Optional variables:
+* ```SYSCONF_ETC_CONFIG_EXT```: mandatory extension for individual
+  config files that are taken to build the target file.
+  Defaults to $(basename $SYSCONF_ETC_CONFIG_TARGET_CONF), which means
+  that for a ```/etc/hosts``` target, only ```/etc/hosts.d/*.hosts```
+  are taken, other files in ```/etc/hosts.d/``` being silently
+  ignored.
+
+
+#### ```SYSCONF_ETC_CONFIG_TYPE=concatenation```
+Example taken from [hosts.meta.conf](hosts.meta.conf):
+```
+SYSCONF_ETC_CONFIG_TARGET_CONF=/etc/hosts
+SYSCONF_ETC_CONFIG_TYPE=concatenation
+```
+
+#### ```SYSCONF_ETC_CONFIG_TYPE=reference```
+Example taken from [gitconfig.meta.conf](gitconfig.meta.conf):
+```
+SYSCONF_ETC_CONFIG_TARGET_CONF=/etc/gitconfig
+SYSCONF_ETC_CONFIG_TYPE=reference
+SYSCONF_ETC_CONFIG_EXT=conf
+SYSCONF_ETC_CONFIG_BEGIN="[include]"
+SYSCONF_ETC_CONFIG_EXPRESSION=" path = %p"
+```
+
+The ```reference``` type generates a list of explicit include
+directives, by writing a ```$SYSCONF_ETC_CONFIG_BEGIN``` line followed
+by include directives as defined by
+```SYSCONF_ETC_CONFIG_EXPRESSION``` .
+
+Variables specific to the ```reference``` type:
+* ```SYSCONF_ETC_CONFIG_BEGIN```: a line that will be generated before
+the list of references. For example, Git configuration requires that
+*include* directives be listed in a ```[include]``` section. Defaults
+to the empty string.
+
+* ```SYSCONF_ETC_CONFIG_EXPRESSION```: format of an individual
+  include/reference directive. The special token ```%p``` is replaced
+  with the absolute path of the referred file.
