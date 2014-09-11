@@ -15,10 +15,8 @@ original file with a symbolic link pointing toward its location in
 As a shell script, the [```sysconf tool```](tree/usr/bin/sysconf)
 provides commands to manipulate the ```/sysconf``` tree:
 
-* ```sysconf compile``` : build all symbolic links into
-  ```/sysconf/compiled```
-* ```sysconf install``` : install ```/sysconf/compiled``` into the
-target (```/``` by default)
+* ```sysconf compile``` : build all symbolic links into ```/sysconf/compiled```
+* ```sysconf install``` : install ```/sysconf/compiled``` into the target (```/``` by default)
 * ```sysconf update``` : run all profiles' ```install.sh``` script
 * ```sysconf add``` : move the given file to Sysconf
 * ```sysconf list``` : list all compile symlinks
