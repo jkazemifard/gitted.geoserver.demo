@@ -293,7 +293,7 @@ gitted_list_gitted_remotes() {
 # usage: gitted_ensure_container_running <name>
 gitted_ensure_container_running() {
     _name="$1"
-    state=$(lxc-info -sHn $_name)
+    state=$(lxc-info -sHn $_name | head -n 1)
 
     if [ -z "$state" ]; then
         # [ -d "$engine_dir" ] || nef_fatal "container cannot be created as engine dir is not available: $engine_dir"
@@ -302,8 +302,8 @@ gitted_ensure_container_running() {
             || nef_fatal "lxc-create failed"
     fi
 
-    state=$(lxc-info -sHn $_name)
-    nef_log "Container '$_name' is $state"
+    state=$(lxc-info -sHn $_name | head -n 1)
+    nef_log "Container '$_name' is '$state'"
 
     if [ $state = STOPPED ]; then
         echo "whaaaaaaaaaaaaat" >&2
