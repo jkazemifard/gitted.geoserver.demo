@@ -306,8 +306,7 @@ gitted_ensure_container_running() {
     nef_log "Container '$_name' is '$state'"
 
     if [ $state = STOPPED ]; then
-        echo "whaaaaaaaaaaaaat" >&2
-        nef_log "Container '$_name' is $state. Starting it..."
+        nef_log "Starting container in daemon mode..."
         lxc-start -n $_name -d \
             || nef_fatal "lxc-start failed"
         sleep 1
@@ -321,7 +320,7 @@ gitted_ensure_container_running() {
     lxc-attach --clear-env -n $_name -- test -d /sysconf || {
         nef_log "sysconf is not defined. extracting from commit $gitted_executive_treeish"
         git archive $gitted_executive_treeish sysconf/ \
-            | lxc-attach --clear-env -n $_name -- tar x -C / --strip-components=1 >&2
+            | lxc-attach --clear-env -n $_name -- tar x -C / >&2
         lxc-attach --clear-env -n $_name -- \
             /sysconf/sysconf.base/tree/usr/bin/sysconf compile install update \
             2>&1 | nef_log_pipe "sysconf@$_name:"
@@ -390,7 +389,7 @@ gitted_parse_cmdline() {
     gitted_command_function_name="gitted_command_${gitted_command_argv[0]}"
     unset gitted_command_argv[0]
     $gitted_command_function_name "${gitted_command_argv[@]}" \
-        || nef_fatal "command ${gitted_command_argv[0]} returned status $?"
+        || nef_fatal "command ${gitted_command_argv[0]} failed with status $?"
     nef_log -v "Command returned successfully."
 }
 
