@@ -1,5 +1,7 @@
 # Frequently Asked Questions about [Sysconf](https://github.com/geonef/sysconf.base)
 
+* [Go back to project README](../README.md)
+
 ## Is Git mandatory? Can I use SubVersion, Bazaar or nothing at all?
 
 You are free. Sysconf is not tight with any version management system.
