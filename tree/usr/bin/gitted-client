@@ -253,8 +253,8 @@ gitted_check_env() {
 
         if [ -n "$error" ]; then
             nef_log "Error: $error"
-            nef_log "There are 4 files you need to update for LXC to run properly"
-            nef_log "as unpriviledged user '$user_name'."
+            nef_log "There are 4 files you need to update (only once) for LXC"
+            nef_log "to run properly as unpriviledged user '$user_name'."
             nef_log ""
             nef_log "You can fix them automatically with the commands below:"
         cat <<MEOF >&2
