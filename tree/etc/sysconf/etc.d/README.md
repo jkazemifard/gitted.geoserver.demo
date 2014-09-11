@@ -192,6 +192,6 @@ the list of references. For example, Git configuration requires that
 *include* directives be listed in a ```[include]``` section. Defaults
 to the empty string.
 
-* ```SYSCONF_ETC_CONFIG_EXPRESSION```: format of an individual
-  include/reference directive. The special token ```%p``` is replaced
-  with the absolute path of the referred file.
+* ```SYSCONF_ETC_CONFIG_EXPRESSION``` (mandatory):format of an
+  individual include/reference directive. The special token ```%p```
+  is replaced with the absolute path of the referred file.
