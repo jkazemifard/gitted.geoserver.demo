@@ -95,7 +95,7 @@ And it will generate this following **```/etc/gitconfig```**:
 
 ## Specification
 
-### Usage of ```sysconf-etc.d```
+### Usage of *sysconf-etc.d*
 
 #### ```sysconf-etc.d help```
 
@@ -119,8 +119,8 @@ sysconf-etc.d: sshd_config: /etc/sysconf/etc.d/sshd_config.meta.conf
 
 #### ```sysconf-etc.d status <name>```
 
-Print details about how the file *<name>* is to be generated.
-*<name>* is not a path, but a name, that correspond to the meta conf
+Print details about how *&lt;name&gt;*'s target is to be generated.
+*&lt;name&gt;* is not a path, but a name, that correspond to the meta conf
 ```/etc/sysconf/etc.d/<name>.meta.conf``` .
 
 If *<name>* is omitted, all names are shown.
