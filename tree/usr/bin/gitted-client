@@ -29,6 +29,7 @@ gitted_command_register() {
 
     [ "${#_argv[@]}" -gt 0 ] && nef_fatal_usage_command init "too many arguments"
 
+    gitted_check_env
     nef_log "Copying $0 to GIT dir..."
     gitted_ensure_script_in_git_dir
 }
@@ -224,6 +225,21 @@ gitted_ensure_script_in_git_dir() {
     commit=$(git rev-parse HEAD)
     sed -i -r "s/^(gitted_executive_treeish)=(.*)/\1=$commit/" $gitted_git_dir/$nef_command_name
     # cp $(dirname $0)/gitted-server-setup $gitted_git_dir/
+}
+
+gitted_check_env() {
+    if ! which lxc-create >/dev/null; then
+        nef_log "Error: LXC is not installed on your system (lxc-create missing)"
+        nef_log "On a Debian/Ubuntu system, it can be installed with the command:"
+        echo >&2
+        echo "sudo apt-get install lxc" >&2
+        exit 3
+    fi
+    if [ $(id -u) -ne 0 ]; then
+        user_name=$(id -un)
+
+    fi
+
 }
 
 gitted_list_gitted_remotes() {
