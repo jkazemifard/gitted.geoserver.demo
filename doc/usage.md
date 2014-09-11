@@ -45,7 +45,7 @@ system::
 It is suggested that you make a Git repository of
 ```/sysconf``` as a whole and treat externally-maintained profiles
 with
-[git-subtree(1)](https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt).
+[git-subtree(1)](https://github.com/git/git/blob/master/contrib/subtree/<git-subtree.txt).
 
 Once you have done the ```mkdir /sysconf``` and ```cd``` into it,
 initialize it as a Git repository using ```git init .```.
@@ -72,7 +72,7 @@ git subtree pull -P sysconf.base https://github.com/geonef/sysconf.base.git mast
 ## Sysconf *without* sysconf
 
 This explains how to manipulate Sysconf profiles **without the
-[Sysconf script]../tree/usr/bin/sysconf()**.
+[Sysconf script](../tree/usr/bin/sysconf)**.
 
 * suppose we want to extract /etc/nginx/shared.conf as part of our sys config:
 ```
