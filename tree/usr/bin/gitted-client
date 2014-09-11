@@ -306,6 +306,7 @@ gitted_ensure_container_running() {
     nef_log "Container '$_name' is $state"
 
     if [ "$state" = "STOPPED" ]; then
+        echo "whaaaaaaaaaaaaat" >&2
         nef_log "Container '$_name' is $state. Starting it..."
         lxc-start -n $_name -d \
             || nef_fatal "lxc-start failed"
