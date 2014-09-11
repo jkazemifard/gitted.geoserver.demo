@@ -1,47 +1,44 @@
-# SYSCONF
+# Sysconf
+
+Sysconf suggests a way to organise custom system files (like ```/etc``` conf
+or ```/usr/bin/``` scripts) in a central directory that is easy to
+manage, backup and sync.
+
+[The idea](doc/logic.md) is to move any custom file like
+```/etc/cron.daily/some-task```) to
+```/sysconf/actual/tree/etc/cron.daily/some-task``` and replace the
+original file with a symbolic link pointing toward its location in
+```/sysconf/```.
+
+# Just a bash script
+
+As a shell script, the [```sysconf tool```](tree/usr/bin/sysconf)
+provides commands to manipulate the ```/sysconf``` tree:
+
+* ```sysconf compile```: build all symbolic links into
+  ```/sysconf/compiled```
+
+* ```sysconf install```: install ```/sysconf/compiled``` into the
+target (```/``` by default)
+
+* ```sysconf update```: run all profiles' ```install.sh``` script
+
+* ```sysconf add```: move the given file to Sysconf
+
+* ```sysconf list```: list all compile symlinks
+
+For detailed information, execute ```sysconf --help``` or read the
+[script's source code](tree/usr/bin:sysconf) directly.
 
 
 ## Documentation
 
-* [Logic behind Sysconf](doc/logic.md)
-* [project requirements](doc/requirements.md)
+* [Usage instructions](doc/usage.md)
+* [Specification of Sysconf directories](doc/specification.md)
+* [Logic behind Sysconf explained](doc/logic.md)
+* [Original project requirements](doc/requirements.md)
 * [FAQ](doc/faq.md)
   
-
-## Usage summary
-
-* For detailed information, execute ```sysconf --help``` or read the
-  [script's source code](tree/usr/bin:sysconf) directly.
-
-
-## The ```sysconf``` script
-
-It's a 500-line shell script at [(tree)/usr/bin/sysconf](tree/usr/bin/sysconf) which help performing the commands to manage the sysconf profiles according to the standard, using SSH to clone and pull from remotes. It gets more useful as multiple package and dependencies are used in /sysconf.
-
-
-### Installation
-
-* Run as root:
-```
-curl https://raw.githubusercontent.com/geonef/sysconf.base/master/tree/usr/bin/sysconf | bash -s init https://github.com/geonef/sysconf.base.git compile install update
-```
-
-* Done! You may now run 'sysconf'. For curiosity:
-```
-    # ls -l /usr/bin/sysconf
-    lrwxrwxrwx 1 root root 40 mai   30 08:51 /usr/bin/sysconf -> /sysconf/sysconf.base/tree/usr/bin/sysconf
-```
-
-### Tips
-
-* Add the following to your ~/.gitconfig or system-wise gitconfig (replace "geonef" with any other GitHub user or community you need):
-```
-    [url "https://github.com/geonef/"]
-      insteadOf = sysconf:
-```
-
-### Quick FAQ
-
 
 ## Authors & history
 
