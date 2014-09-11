@@ -1,5 +1,4 @@
-# Frequently Asked Questions about
-  [Sysconf](https://github.com/geonef/sysconf.base)
+# Frequently Asked Questions about [Sysconf](https://github.com/geonef/sysconf.base)
 
 ## Is Git mandatory? Can I use SubVersion, Bazaar or nothing at all?
 
