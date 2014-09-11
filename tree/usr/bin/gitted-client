@@ -264,6 +264,7 @@ grep "^${user_name}:" /etc/subuid || sudo sh -c 'echo "${user_name}:100000:65536
 grep "^${group_name}:" /etc/subgid || sudo sh -c 'echo "${group_name}:100000:65536" >>/etc/subgid'
 grep "^${user_name} " /etc/lxc/lxc-usernet || sudo sh -c 'echo "${user_name} veth lxcbr0 10" >>/etc/lxc/lxc-usernet'
 
+[ -d ~/.config/lxc ] || mkdir -p ~/.config/lxc
 [ -f ~/.config/lxc/default.conf ] || cat <<EOF >~/.config/lxc/default.conf
 lxc.network.type = veth
 lxc.network.link = lxcbr0
