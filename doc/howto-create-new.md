@@ -26,15 +26,15 @@ Then import the
 its dependency [sysconf.base](https://github.com/geonef/sysconf.base):
 
 ```
-git subtree add -P gitted/sysconf/sysconf.gitted git@github.com:geonef/sysconf.gitted.git
-git subtree add -P gitted/sysconf/sysconf.base git@github.com:geonef/sysconf.base.git
-mkdir gitted/sysconf/actual
-echo sysconf.gitted >gitted/sysconf/actual/deps
+git subtree add -P sysconf/sysconf.gitted git@github.com:geonef/sysconf.gitted.git
+git subtree add -P sysconf/sysconf.base git@github.com:geonef/sysconf.base.git
+mkdir sysconf/actual
+echo sysconf.gitted >sysconf/actual/deps
 ```
 
 Make the symlink to ease the usage of gitted:
 ```
-ln -s sysconf/sysconf.gitted/tree/usr/bin/gitted-client gitted/gitted-client
+ln -s sysconf.gitted/tree/usr/bin/gitted-client sysconf/gitted-client
 ```
 
 Done!
@@ -43,8 +43,8 @@ Done!
 ## Try the minimal system
 
 ```
-gitted/gitted-client register
-gitted/gitted-client add vm-atlas-base
+sysconf/gitted-client register
+sysconf/gitted-client add vm-atlas-base
 git push vm-atlas-base master
 ```
 
@@ -66,14 +66,14 @@ Everything is okay? Then destroy the container for now:
 lxc-destroy -f -n vm-atlas-base
 ```
 
-## Setup your custom system in gitted/sysconf/actual
+## Setup your custom system in sysconf/actual
 
-* Put into ```gitted/sysconf/actual/tree``` any file that you need on
+* Put into ```sysconf/actual/tree``` any file that you need on
   the system. For example,
-  ```gitted/sysconf/actual/tree/etc/custom.conf``` will be installed
+  ```sysconf/actual/tree/etc/custom.conf``` will be installed
   as ```/etc/custom.conf``` on the system.
   
-* Put into ```gitted/sysconf/actual/install.sh``` any shell commands
+* Put into ```sysconf/actual/install.sh``` any shell commands
   that need to run to setup the system, for example ```apt-get
   install``` commands, or generating config files
 

@@ -4,7 +4,7 @@
 
 What Gitted brings is:
 * you clone a GIT repository with Gitted-enabled data
-* you run: ``` gitted/gitted-client init mycontainer ```
+* you run: ``` sysconf/gitted-client init mycontainer ```
 * you push the data to it: ``` git push mycontainer master ```
 * read the messages, it shows a URL like http://10.0.3.254/ that you
   may open in your browser to visualize or edit the data

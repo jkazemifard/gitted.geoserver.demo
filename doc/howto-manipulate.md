@@ -30,27 +30,27 @@ the logic from that perspective.
 ## Get the service running
 
 A *Gitted-powered repository* is a normal Git repository (hosted on
-GitHub or not) that has a ```gitted/``` directory and provides the
-```gitted/gitted-client``` script along with
+GitHub or not) that has a ```sysconf/``` directory and provides the
+```sysconf/gitted-client``` script along with
 [Sysconf](https://github.com/geonef/sysconf.base) profiles lying into
-```gitted/sysconf/``` .
+```sysconf/``` .
 
 As a user, you don't need to dive into *Sysconf*. Just remember that
-```gitted/sysconf/``` is responsible for setting-up the LXC container
+```sysconf/``` is responsible for setting-up the LXC container
 that is going to be created/updated when you run ```git push```.
 
 But first, you need to **enable** Gitted on this repository by
 running:
 ```
-gitted/gitted-client register
+sysconf/gitted-client register
 ```
 
 This will copy the *gitted-client* to the *.git/* directory and
-save a reference to the *gitted/sysconf/* tree.
+save a reference to the *sysconf/* tree.
 
 Then, register the *gitted-client* special remote:
 ```
-gitted/gitted-client add container-name
+sysconf/gitted-client add container-name
 ```
 
 You may list the remote that has been created by doing a ```git remote
@@ -80,9 +80,9 @@ git push container-name master
 
 You can register as many remotes with ```gitted-client add```:
 ```
-gitted/gitted-client add container1
-gitted/gitted-client add container2
-gitted/gitted-client add container3
+sysconf/gitted-client add container1
+sysconf/gitted-client add container2
+sysconf/gitted-client add container3
 ```
 
 And build them like we did before:

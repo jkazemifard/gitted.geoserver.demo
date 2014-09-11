@@ -23,7 +23,7 @@ containers to make it run, and GIT for updates, backups and data sync.
 
 ```
 git clone https://github.com/project/repos.git && cd repos
-gitted/gitted-client register && gitted/gitted-client add vm-repos
+sysconf/gitted-client register && sysconf/gitted-client add vm-repos
 git push vm-repos master
 ```
 
