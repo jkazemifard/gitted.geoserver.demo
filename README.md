@@ -1,8 +1,8 @@
 # Sysconf
 
-Sysconf suggests a way to organise custom system files (like ```/etc``` conf
-or ```/usr/bin/``` scripts) in a central directory that is easy to
-manage, backup and sync.
+Sysconf suggests a way to organise custom system files (like
+```/etc``` config or ```/usr/bin/``` scripts) in a central directory
+that is easy to manage, backup and sync.
 
 [The idea](doc/logic.md) is to move any custom file like
 ```/etc/cron.daily/some-task```) to
@@ -10,21 +10,17 @@ manage, backup and sync.
 original file with a symbolic link pointing toward its location in
 ```/sysconf/``` .
 
-# Just a bash script
+## Just a bash script
 
 As a shell script, the [```sysconf tool```](tree/usr/bin/sysconf)
 provides commands to manipulate the ```/sysconf``` tree:
 
 * ```sysconf compile```: build all symbolic links into
   ```/sysconf/compiled```
-
 * ```sysconf install```: install ```/sysconf/compiled``` into the
 target (```/``` by default)
-
 * ```sysconf update```: run all profiles' ```install.sh``` script
-
 * ```sysconf add```: move the given file to Sysconf
-
 * ```sysconf list```: list all compile symlinks
 
 For detailed information, execute ```sysconf --help``` or read the
