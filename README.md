@@ -10,7 +10,7 @@ Gitted solves 2 problems:
   doing simple database dumps are often not enough, if it needs file
   uploads, applicative plugins, etc.
 
-To address these issues, Gitted help you manage the website
+To address these issues, Gitted helps you manage the website
 software *and* the changing data as one unique thing, which is stored
 as a GIT repository.
 
@@ -19,10 +19,10 @@ as a GIT repository.
 * [How to use a Gitted-powered GIT repository](doc/howto-manipulate.md)
 * [How to setup Gitted for an application](doc/howto-create-new.md)
 
-## push-to-deplay: Machine and state out of GIT data
+## push-to-deploy: Machine and state out of GIT data
 
-What GITTED (git-lxc) brings is:
-* you clone a GIT repository with GITTED-enabled data
+What Gitted (git-lxc) brings is:
+* you clone a GIT repository with Gitted-enabled data
 * you run: ``` gitted/gitted-client init mycontainer ```
 * you push the data to it: ``` git push mycontainer master ```
 * read the messages, it shows a URL like http://10.0.3.254/ that you
@@ -68,6 +68,6 @@ back to GIT files with commits, before being pulled as normal.
 
 The different kinds of exports depend on scripts in
 _/usr/share/gitted/export/_. It is quite easy to write new ones
-(application data, for example) as GITTED provides like a framework for
+(application data, for example) as Gitted provides like a framework for
 it. The magic is about the easiness and interoperability to handle the
 whole thing, compared to the complexity.
