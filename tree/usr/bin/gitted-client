@@ -245,6 +245,8 @@ gitted_check_env() {
             error="User '$user_name' misses an entry in /etc/subuid"
         elif ! grep -q "^${group_name}:" /etc/subgid; then
             error="User '$user_name' misses an entry in /etc/subuid"
+        elif ! grep -q "^${user_name} " /etc/lxc/lxc-usernet; then
+            error="User '$user_name' misses an entry in /etc/lxc/lxc-usernet"
         elif ! [ -f ~/.config/lxc/default.conf ]; then
             error="Missing file '~/.config/lxc/default.conf' with 'id_map' declarations"
         fi
