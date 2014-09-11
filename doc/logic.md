@@ -140,7 +140,7 @@ providing its specific config (```/etc/hosts/profile-a.hosts``` for
 example) in a clean and non-obstrusive way.
 
 This is why Sysconf provides
-[sysconf-etc.d](tree/usr/bin/sysconf-etc.d), a generic tool that fix
+[sysconf-etc.d](../tree/usr/bin/sysconf-etc.d), a generic tool that fix
 the required config files, which are by default:
 
 * ```/etc/hosts``` out of ```/etc/hosts/*.hosts```
@@ -150,5 +150,5 @@ the required config files, which are by default:
 
 Other files can be acted upon, when specified through a
 ```.meta.conf``` file in ```/etc/sysconf/etc.d```: see
-[etc/sysconf/etc.d/README.md](tree/etc/sysconf/etc.d) for more
+[etc/sysconf/etc.d/README.md](../tree/etc/sysconf/etc.d) for more
 information.
