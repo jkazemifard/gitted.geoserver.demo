@@ -26,8 +26,8 @@ Then import the
 its dependency [sysconf.base](https://github.com/geonef/sysconf.base):
 
 ```
-git subtree add -P sysconf/sysconf.gitted git@github.com:geonef/sysconf.gitted.git
-git subtree add -P sysconf/sysconf.base git@github.com:geonef/sysconf.base.git
+git subtree add -P sysconf/sysconf.gitted git@github.com:geonef/sysconf.gitted.git master
+git subtree add -P sysconf/sysconf.base git@github.com:geonef/sysconf.base.git master
 mkdir sysconf/actual
 echo sysconf.gitted >sysconf/actual/deps
 ```
@@ -37,6 +37,10 @@ Make the symlink to ease the usage of gitted:
 ln -s sysconf.gitted/tree/usr/bin/gitted-client sysconf/gitted-client
 ```
 
+Commit the whole:
+```
+git add sysconf/actual sysconf/gitted-client
+git commit -m "gathered sysconf profiles"
 Done!
 
 
@@ -44,8 +48,8 @@ Done!
 
 ```
 sysconf/gitted-client register
-sysconf/gitted-client add vm-atlas-base
-git push vm-atlas-base master
+sysconf/gitted-client add test-vm
+git push test-vm master
 ```
 
 The construction of the LXC container happens during the ```git
