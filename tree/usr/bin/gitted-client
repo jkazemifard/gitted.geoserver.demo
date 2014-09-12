@@ -314,12 +314,12 @@ gitted_ensure_container_running() {
         network_ready=
         while [ "$network_ready" != ok ]; do
             ip=$(lxc-info -n $_name -i)
-            echo IP IS::::::::::::::$ip::
             if [ "$ip" = "" ]; then
                 nef_log "Waiting for the network..."
                 sleep 3
                 network_ready=retry
             else
+                nef_log "Got IP: $ip"
                 network_ready=ok
             fi
         done
