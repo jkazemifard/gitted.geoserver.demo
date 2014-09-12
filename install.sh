@@ -20,7 +20,8 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
 
     network_ready=
     while [ $network_ready != ok ]; do
-        ip=$(ip -o -4 addr show dev eth0 primary)
+        ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
+        echo IP IS::::::::::::::$ip::
         if [ "$ip" = "" ]; then
             nef_log "Waiting for the network..."
             sleep 3
@@ -30,16 +31,20 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
         fi
     done
 
-    apt-get update || {
-        echo "$_old_content" >/etc/apt/sources.list
-        nef_fatal "apt-get failed with status $?"
-    }
+    # apt-get update || {
+    #     echo "$_old_content" >/etc/apt/sources.list
+    #     nef_fatal "apt-get failed with status $?"
+    # }
 fi
 
-echo LATER
-ip -o -4 addr show dev eth0 primary
-ifconfig
-cat /etc/resolv.conf
+apt-cache search git >/dev/null 2>&1 \
+  || apt-get update \
+  || nef_fatal "apt-get failed with status $?"
+
+# echo LATER
+# ip -o -4 addr show dev eth0 primary
+# ifconfig
+# cat /etc/resolv.conf
 
 sysconf_require_packages git curl
 
