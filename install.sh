@@ -18,8 +18,11 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
     cat /etc/resolv.conf
     echo "deb http://ftp.debian.org/debian/ wheezy main contrib" >/etc/apt/sources.list
 
+        ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
+        echo PRE IP IS::::::::::::::$ip::
+
     network_ready=
-    while [ $network_ready != ok ]; do
+    while [ "$network_ready" != ok ]; do
         ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
         echo IP IS::::::::::::::$ip::
         if [ "$ip" = "" ]; then
