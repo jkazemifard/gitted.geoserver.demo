@@ -278,8 +278,6 @@ MEOF
         fi
     fi
 
-    local _cgroup=$(df | grep /sys/fs/cgroup)
-    [ -z "$_cgroup" ] && nef_fatal "/sys/fs/cgroup is not mounted; HINT: if you have just installed LXC, just reboot the system"
 }
 
 gitted_list_gitted_remotes() {
@@ -306,7 +304,7 @@ gitted_ensure_container_running() {
     if [ $state = STOPPED ]; then
         nef_log "Starting container in daemon mode..."
         lxc-start -n $_name -d \
-            || nef_fatal "lxc-start failed"
+            || nef_fatal "lxc-start failed; HINT: if you have just installed LXC, just reboot your system and retry..."
         sleep 1
     fi
 
