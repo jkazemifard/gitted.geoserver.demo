@@ -306,8 +306,8 @@ gitted_ensure_container_running() {
         lxc-start -n $_name -d \
         sleep 3
 
-        echo ***** lxc-info -n $_name -i
-        lxc-info -n $_name -i
+        echo ***** lxc-info -n $_name -i >&2
+        lxc-info -n $_name -i >&2
 
         state=$(lxc-info -sHn $_name | head -n 1)
         [ $state = RUNNING ] || nef_fatal "lxc-start failed; HINT: if you have just installed LXC, just reboot your system and retry..."
@@ -422,7 +422,7 @@ nef_log() {
     while [ "$1" != "" ]; do
 
         case "$1" in
-            -p | --prepend) _opt_prepend="$2"; echo "prenddd..$2"; shift; shift ;;
+            -p | --prepend) _opt_prepend="$2"; shift; shift ;;
             -v | --verbose) _opt_verbose=yes; shift ;;
             -d | --debug) _opt_debug=yes; shift ;;
             -*) nef_log "nef_log(): bad option: $1"; shift ;;
