@@ -18,21 +18,21 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
     cat /etc/resolv.conf
     echo "deb http://ftp.debian.org/debian/ wheezy main contrib" >/etc/apt/sources.list
 
-        ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
-        echo PRE IP IS::::::::::::::$ip::
+    # ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
+    # echo PRE IP IS::::::::::::::$ip::
 
-    network_ready=
-    while [ "$network_ready" != ok ]; do
-        ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
-        echo IP IS::::::::::::::$ip::
-        if [ "$ip" = "" ]; then
-            nef_log "Waiting for the network..."
-            sleep 3
-            network_ready=retry
-        else
-            network_ready=ok
-        fi
-    done
+    # network_ready=
+    # while [ "$network_ready" != ok ]; do
+    #     ip=$(ip -o -4 addr show dev eth0 primary | sed -r 's/.* inet ([0-9.]+).*/\1/')
+    #     echo IP IS::::::::::::::$ip::
+    #     if [ "$ip" = "" ]; then
+    #         nef_log "Waiting for the network..."
+    #         sleep 3
+    #         network_ready=retry
+    #     else
+    #         network_ready=ok
+    #     fi
+    # done
 
     # apt-get update || {
     #     echo "$_old_content" >/etc/apt/sources.list
@@ -41,8 +41,8 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
 fi
 
 apt-cache search git >/dev/null 2>&1 \
-  || apt-get update \
-  || nef_fatal "apt-get failed with status $?"
+    || apt-get update \
+    || nef_fatal "apt-get failed with status $?"
 
 # echo LATER
 # ip -o -4 addr show dev eth0 primary
