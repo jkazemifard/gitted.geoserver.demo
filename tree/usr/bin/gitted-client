@@ -258,7 +258,6 @@ gitted_check_env() {
             nef_log ""
             nef_log "You can fix them automatically with the commands below:"
         cat <<MEOF >&2
-# START
 
 grep "^${user_name}:" /etc/subuid || sudo sh -c 'echo "${user_name}:100000:65536" >>/etc/subuid'
 grep "^${group_name}:" /etc/subgid || sudo sh -c 'echo "${group_name}:100000:65536" >>/etc/subgid'
@@ -274,10 +273,7 @@ lxc.id_map = u 0 100000 65536
 lxc.id_map = g 0 100000 65536
 EOF
 
-# END
 MEOF
-        nef_log "Hint: select the lines between #START and #END (with the mouse), "
-        nef_log "then click with the middle button to paste it."
         exit 3
         fi
     fi
