@@ -10,10 +10,14 @@ grep -q "^$hostname " /etc/hosts \
     || echo "$ip $hostname" >>/etc/hosts
 
 # because the sources.list installed by lxc download template doesn't work well
+_old_content="$(cat /etc/apt/sources.list)"
 if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
     echo "Fixing packages..."
     echo "deb http://ftp.debian.org/debian/ wheezy main contrib" >/etc/apt/sources.list
-    apt-get update || nef_fatal "apt-get failed with status $?"
+    apt-get update || {
+        echo "$_old_content" >/etc/apt/sources.list
+        nef_fatal "apt-get failed with status $?"
+    }
 fi
 
 sysconf_require_packages git curl
