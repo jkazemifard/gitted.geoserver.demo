@@ -17,10 +17,18 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
     ifconfig
     cat /etc/resolv.conf
     echo "deb http://ftp.debian.org/debian/ wheezy main contrib" >/etc/apt/sources.list
-    # do
-    # ip=$(ip -o -4 addr show dev eth0 primary)
-    # if "$ip" = ""
-    # while [ $network_ready = wait ]
+
+    network_ready=
+    while [ $network_ready != ok ]; do
+        ip=$(ip -o -4 addr show dev eth0 primary)
+        if [ "$ip" = "" ]; then
+            nef_log "Waiting for the network..."
+            sleep 3
+            network_ready=retry
+        else
+            network_ready=ok
+        fi
+    done
 
     apt-get update || {
         echo "$_old_content" >/etc/apt/sources.list
@@ -29,9 +37,9 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
 fi
 
 echo LATER
-    ip -o -4 addr show dev eth0 primary
-    ifconfig
-    cat /etc/resolv.conf
+ip -o -4 addr show dev eth0 primary
+ifconfig
+cat /etc/resolv.conf
 
 sysconf_require_packages git curl
 
