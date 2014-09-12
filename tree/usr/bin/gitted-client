@@ -229,7 +229,7 @@ gitted_ensure_script_in_git_dir() {
 
 gitted_check_env() {
     if ! which lxc-create >/dev/null; then
-        nef_log "Error: LXC is not installed on your system (lxc-create missing)"
+        nef_log "ERROR: LXC is not installed on your system (lxc-create missing)"
         nef_log "On a Debian/Ubuntu system, it can be installed with the command:"
         echo >&2
         echo "sudo apt-get install lxc" >&2
