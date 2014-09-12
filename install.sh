@@ -13,9 +13,15 @@ grep -q "^$hostname " /etc/hosts \
 _old_content="$(cat /etc/apt/sources.list)"
 if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
     echo "Fixing packages..."
+    ip -o -4 addr show dev eth0 primary
     ifconfig
     cat /etc/resolv.conf
     echo "deb http://ftp.debian.org/debian/ wheezy main contrib" >/etc/apt/sources.list
+    # do
+    # ip=$(ip -o -4 addr show dev eth0 primary)
+    # if "$ip" = ""
+    # while [ $network_ready = wait ]
+
     apt-get update || {
         echo "$_old_content" >/etc/apt/sources.list
         nef_fatal "apt-get failed with status $?"
@@ -23,6 +29,7 @@ if grep -vq "deb http://ftp.debian.org/debian/" /etc/apt/sources.list; then
 fi
 
 echo LATER
+    ip -o -4 addr show dev eth0 primary
     ifconfig
     cat /etc/resolv.conf
 
