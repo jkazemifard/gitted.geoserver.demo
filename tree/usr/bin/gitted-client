@@ -313,9 +313,6 @@ gitted_ensure_container_running() {
 
         network_ready=
         while [ "$network_ready" != ok ]; do
-            echo ***** lxc-info -n $_name -i >&2
-            lxc-info -n $_name -i >&2
-
             ip=$(lxc-info -n $_name -i)
             echo IP IS::::::::::::::$ip::
             if [ "$ip" = "" ]; then
