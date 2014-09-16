@@ -236,8 +236,9 @@ gitted_check_env() {
         exit 3
     fi
     if [ $(id -u) -eq 0 ]; then
-        nef_log "RUNNING AS ROOT! Notice: you can work as an unpriviledged user as well."
+        nef_log "RUNNING AS ROOT! Notice: you can work as an unprivileged user as well."
     else
+        # unprivileged mode -- thanks to https://www.stgraber.org/2014/01/17/lxc-1-0-unprivileged-containers/
         user_name=$(id -un)
         group_name=$(id -gn)
         error=
