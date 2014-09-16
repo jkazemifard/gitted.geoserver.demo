@@ -22,7 +22,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
     if [ -n "$uuid" ]; then
         if echo '\l' | sudo -u postgres psql | grep -q $GITTED_POSTGRESQL_DATABASE; then
             nef_log "Database 'aire' exists: dropping..."
-            service apache2 restart >&2
+            service postgresql restart >&2
             echo "DROP DATABASE $GITTED_POSTGRESQL_DATABASE" | sudo -u postgres psql
         fi
         echo "CREATE DATABASE $GITTED_POSTGRESQL_DATABASE TEMPLATE template0 OWNER aire ENCODING 'UTF-8';" | sudo -u postgres psql
