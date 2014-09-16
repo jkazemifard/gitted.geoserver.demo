@@ -195,3 +195,20 @@ to the empty string.
 * ```SYSCONF_ETC_CONFIG_EXPRESSION``` (mandatory):format of an
   individual include/reference directive. The special token ```%p```
   is replaced with the absolute path of the referred file.
+
+#### Hooks
+
+Hooks are bash function that can be defined by a meta conf file.
+
+There is only one hook available:
+**SYSCONF_ETC_CONFIG_ONCHANGE_HOOK**, which is executed after the
+target config file has been updated.
+
+It is the right place to restart a service. Example:
+```
+# In /etc/sysconf/etc.d/postgresql.meta.conf
+
+SYSCONF_ETC_CONFIG_ONCHANGE_HOOK() {
+    service postgresql restart
+}
+```
