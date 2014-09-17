@@ -19,20 +19,21 @@ state_ref=$(gitted_state_ref_name postgresql)
 # 0=has new ops
 new_ops=0
 
-pg_client() {
+_psql() {
     sudo -u postgres psql \
         -X \
         --pset border=0 --pset format=unaligned --pset tuples_only \
-        "$@"
+        "$@" \
+        || nef_fatal "psql failed with status $? with args: $*"
 }
 
 _pg_dump() {
     sudo -u postgres pg_dump "$@"
 }
 
-oplog_last_time=$(echo "select xact_commit, stats_reset from pg_stat_database where datname = '${GITTED_POSTGRESQL_DATABASE}' limit 1" | pg_client)
+oplog_last_time=$(echo "select tup_inserted, tup_updated, tup_deleted, stats_reset from pg_stat_database where datname = '${GITTED_POSTGRESQL_DATABASE}' limit 1" | _psql)
 
-nef_log "oplog_last_time = $oplog_last_time"
+# nef_log "oplog_last_time = $oplog_last_time"
 oplog_last_time_path=/var/run/gitted.$GITTED_GIT_BRANCH.postgresql.oplog_last_time
 
 if [ -f $oplog_last_time_path -a -n "$oplog_last_time" ]; then
@@ -49,7 +50,7 @@ if [ $new_ops -eq 0 ]; then
 
     case "$GITTED_POSTGRESQL_FORMAT" in
         sql)
-            tables=$(echo "\dt" | pg_client -d $GITTED_POSTGRESQL_DATABASE | cut -d\| -f2)
+            tables=$(echo "\dt" | _psql -d $GITTED_POSTGRESQL_DATABASE | cut -d\| -f2)
             mkdir -p $GIT_WORK_TREE/$GITTED_DATA_PATH
             _common_opts="--format=plain --blobs"
             _pg_dump $GITTED_POSTGRESQL_DATABASE --exclude-table='*'  $_common_opts \
@@ -60,12 +61,12 @@ if [ $new_ops -eq 0 ]; then
             for table in $tables; do
                 # Schema
                 _pg_dump $GITTED_POSTGRESQL_DATABASE --table=$table --schema-only $_common_opts \
-                    > "$GIT_WORK_TREE/$GITTED_DATA_PATH/data.$table.sql" \
+                    > "$GIT_WORK_TREE/$GITTED_DATA_PATH/table.$table.schema.sql" \
                     || nef_fatal "pg_dump failed for table (schema): $table"
 
                 # Data
                 _pg_dump $GITTED_POSTGRESQL_DATABASE --table=$table --data-only $_common_opts \
-                    > "$GIT_WORK_TREE/$GITTED_DATA_PATH/data.$table.sql" \
+                    > "$GIT_WORK_TREE/$GITTED_DATA_PATH/table.$table.data.sql" \
                     || nef_fatal "pg_dump failed for table (data): $table"
 
                 nef_log "Exported table: $table"
@@ -79,7 +80,7 @@ if [ $new_ops -eq 0 ]; then
     unchanged=0
 
     if [ $(ls $GIT_WORK_TREE/$GITTED_DATA_PATH/ | wc -l) -ne 0 ]; then
-        git update-index --add $GIT_WORK_TREE/$GITTED_DATA_PATH/* || nef_fatal "git update-index failed"
+        git update-index --add --remove $(git ls-files $GITTED_DATA_PATH/) $GIT_WORK_TREE/$GITTED_DATA_PATH/* || nef_fatal "git update-index failed"
 
         if [ -n "$gitted_last_commit" ]; then
             git diff-index --cached --quiet $gitted_last_commit
