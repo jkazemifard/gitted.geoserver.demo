@@ -107,6 +107,8 @@ gitted_command_handle-remote-protocol() {
 
     nef_log "Forwarding command '$_command' to gitted in container '$_name'..."
     lxc-attach --clear-env -n $_name -- gitted git-remote-command $_command
+    local _ip=$(lxc-info -n $_name -i)
+    nef_log "Container IP address: $_ip"
 }
 
 # command: list
