@@ -6,6 +6,7 @@
 
 [ -z "$GITTED_DATA_PATH" ] && nef_fatal "missing variable: GITTED_DATA_PATH"
 [ -z "$GITTED_POSTGRESQL_DATABASE" ] && nef_fatal "missing variable: GITTED_POSTGRESQL_DATABASE"
+[ -z "$GITTED_POSTGRESQL_USER" ] && GITTED_POSTGRESQL_USER=postgres
 
 state_ref=$(gitted_state_ref_name postgresql)
 state_commit=$(git show-ref -s $state_ref)
@@ -21,11 +22,11 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
     uuid=$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH/schema.sql | sed -r 's/.* blob ([^\t]+).*/\1/')
     if [ -n "$uuid" ]; then
         if echo '\l' | sudo -u postgres psql | grep -q $GITTED_POSTGRESQL_DATABASE; then
-            nef_log "Database 'aire' exists: dropping..."
+            nef_log "Database '$GITTED_POSTGRESQL_DATABASE' exists: dropping..."
             service apache2 restart >&2
             echo "DROP DATABASE $GITTED_POSTGRESQL_DATABASE" | sudo -u postgres psql
         fi
-        echo "CREATE DATABASE $GITTED_POSTGRESQL_DATABASE TEMPLATE template0 OWNER aire ENCODING 'UTF-8';" | sudo -u postgres psql
+        echo "CREATE DATABASE $GITTED_POSTGRESQL_DATABASE TEMPLATE template0 OWNER $GITTED_POSTGRESQL_USER ENCODING 'UTF-8';" | sudo -u postgres psql
 
         if [ $? -eq 0 ]; then
             git cat-file -p $uuid | sudo -u postgres psql -d $GITTED_POSTGRESQL_DATABASE | nef_log_pipe "SQL as <postgres>"
@@ -36,7 +37,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
                     file=$(basename $path)
                     if echo "$file" | grep -q '^data\..*\.sql$'; then
                         nef_log "Importing into PostgreSQL: $path"
-                        git cat-file -p $uuid | sudo -u aire psql -d $GITTED_POSTGRESQL_DATABASE | nef_log_pipe "SQL as <aire>"
+                        git cat-file -p $uuid | sudo -u $GITTED_POSTGRESQL_USER psql -d $GITTED_POSTGRESQL_DATABASE | nef_log_pipe "SQL as <aire>"
                     fi
                 done
             )
