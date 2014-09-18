@@ -22,7 +22,7 @@ But there are programs distributed with a unique config file:
   explicitely under the ```[include]``` section;
 
 * some do not allow any includes anyway: it is the case of
-  ```/etc/hosts``` which need to be updated in place with the
+  ```/etc/hosts``` which needs to be updated in place with the
   concatenation of ```/etc/hosts/*.hosts```.
 
 
@@ -32,8 +32,8 @@ providing its specific config (```/etc/hosts/profile-a.hosts``` for
 example) in a clean and non-obstrusive way.
 
 This is why Sysconf provides
-[sysconf-etc.d](../tree/usr/bin/sysconf-etc.d), a generic tool that fix
-the required config files, which are by default:
+[sysconf-etc.d](../tree/usr/bin/sysconf-etc.d), a generic tool that
+fixes the required config files, which are by default:
 
 * ```/etc/hosts``` out of ```/etc/hosts/*.hosts```
 * ```/etc/ssh/ssh_config``` out of ```/etc/ssh/ssh_config.d/*.ssh_config```
@@ -41,9 +41,7 @@ the required config files, which are by default:
 * ```/etc/gitconfig``` out of ```/etc/gitconfig.d/*.gitconfig```
 
 Other files can be acted upon, when specified through a
-```.meta.conf``` file in ```/etc/sysconf/etc.d```: see
-[etc/sysconf/etc.d/README.md](../tree/etc/sysconf/etc.d) for more
-information.
+```.meta.conf``` file in ```/etc/sysconf/etc.d```: see the example below.
 
 
 ## Example
@@ -139,29 +137,29 @@ A meta file is stored at ```/etc/sysconf/etc.d/<name>.meta.conf```
 where *&lt;name&gt;* represents the config *name* to be used with the
 [sysconf-etc.d](../../../usr/bin/sysconf-etc.d) command.
 
-The general syntax is actually that of the *bash(1)* shell. The file
+The general syntax is actually that of *bash(1)* shell. The file
 does not need execution permissions as it is sourced by
 *sysconf-etc.d*.
 
 A meta-file is declarative: it needs to declare shell variable that
-tell *sysconf-etc.d* how to generate the target config file.
+tells *sysconf-etc.d* how to generate the target config file.
 
 Comments begin with a hash character (#). Any valid shell instruction
 is allowed, if you ever need to make dynamic processing.
 
 There are **2 mandatory variables**:
 * ```SYSCONF_ETC_CONFIG_TARGET_CONF```: absolute path of target config
-  file that need to be generated/updated
+  file that needs to be generated/updated
 * ```SYSCONF_ETC_CONFIG_TYPE```: indicates what method that is used to
   generate the target file: ```concatenation``` or ```reference```.
   
 Optional variables:
 * ```SYSCONF_ETC_CONFIG_EXT```: mandatory extension for individual
   config files that are taken to build the target file.
-  Defaults to $(basename $SYSCONF_ETC_CONFIG_TARGET_CONF), which means
-  that for a ```/etc/hosts``` target, only ```/etc/hosts.d/*.hosts```
-  are taken, other files in ```/etc/hosts.d/``` being silently
-  ignored.
+  Defaults to ```$(basename $SYSCONF_ETC_CONFIG_TARGET_CONF)```, which
+  means that for a ```/etc/hosts``` target, only
+  ```/etc/hosts.d/*.hosts``` are taken, other files in
+  ```/etc/hosts.d/``` being silently ignored.
 
 
 #### ```SYSCONF_ETC_CONFIG_TYPE=concatenation```
