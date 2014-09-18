@@ -304,9 +304,13 @@ gitted_ensure_container_running() {
 
         if [ $(id -u) -ne 0 ]; then
             # fix hwaddr to avoid redundant 00:16:3e:ff:ff:ff
-            let "a = $RANDOM % 256"
-            let "b = $RANDOM % 256"
-            let "c = $RANDOM % 256"
+            # local a=$(printf "%x"
+            local a=$((RANDOM % 256))
+            local b=$((RANDOM % 256))
+            local c=$((RANDOM % 256))
+            a=$(printf "%x" $a)
+            b=$(printf "%x" $b)
+            c=$(printf "%x" $c)
             local _newmac=00:16:3e:$a:$b:$c
             local _configpath=~/.local/share/lxc/$_name/config
 
