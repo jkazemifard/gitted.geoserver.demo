@@ -25,7 +25,6 @@ state_ref=$(gitted_state_ref_name mongodb)
 new_ops=0
 
 oplog_last_time=$(echo -e "use local\ndb.oplog.rs.find({op:{\$ne:\"n\"},ns:/^${GITTED_MONGODB_DATABASE}\\./}).sort({\"\$natural\" : -1})[0]" | _mongoclient | grep '"h" :' | sed -r 's/.*NumberLong\("([^"]+)"\).*/\1/')
-# oplog_last_time=$(echo -e 'use local\ndb.oplog.$main.find({ns:{$ne:""}}).sort({"$natural" : -1})[0].ts.t' | _mongoclient)
 
 # nef_log "oplog_last_time = $oplog_last_time"
 oplog_last_time_path=/var/run/gitted.$GITTED_GIT_BRANCH.mongodb.oplog_last_time

@@ -10,12 +10,14 @@ What Gitted brings is:
   may open in your browser to visualize or edit the data
 
 What happens is:
-* _gitted-client init_ copies itself into the _.git/_ directory and
-  register (itself) as a GIT remote named _mycontainer_ using the
-  _ext::_ protocol
+* _gitted-client init_ copies itself into the _.git/_ directory, then
+  registers itself as a GIT remote named _mycontainer_ using the
+  [_ext::_ protocol](http://git-scm.com/docs/git-remote-ext);
 * _git push_ pushes the data to _gitted-client_ which:
-    * creates the LXC container _mycontainer_ with _lxc-create(1)_
-    * start the container with _lxc-start(1)_
+    * creates the LXC container _mycontainer_ with
+      [lxc-create(1)](http://lxc.sourceforge.net/man/lxc-create.html)
+    * start the container with
+      [lxc-start(1)](http://lxc.sourceforge.net/man/lxc-start.html)
     * initialize the container (through sysconf)
     * run [/usr/bin/gitted](tree/usr/bin/gitted) _git-remote-command_
       inside the container, which does the rest:
@@ -31,10 +33,14 @@ Import/export is about:
   [PULL](tree/usr/share/gitted/export/mongodb) support
 * PostgreSQL data:
   [PUSH](tree/usr/share/gitted/import/postgresql) support
-* MySQL data (not implemented yet)
-* Application data
-* ... anything a handler is defined as a script in
-_/usr/share/gitted/import/_ and/or _/usr/share/gitted/export/_.
+* MySQL data:
+  [PUSH](tree/usr/share/gitted/import/mysql) and
+  [PULL](tree/usr/share/gitted/export/mysql) support
+ * ... any XX thing support provided by the scripts
+   ```/usr/share/gitted/import/XX``` and
+   ```/usr/share/gitted/export/XX```, for example:
+     * application data
+     * log files...
 
 
 ### pull-to-backup: Machine and state exported as GIT state
@@ -44,11 +50,12 @@ application, databases...), then:
 * make a ``` git pull mycontainer master ``` to fetch the new state
   with modifications
 
-Up-to-date data from PostgreSQL, MySQL, etc., is automagically saved
-back to GIT files with commits, before being pulled as normal.
+Up-to-date data from PostgreSQL, MySQL, etc., is _automagically_ saved
+back to GIT files with commits, before being pulled by Git.
 
 The different kinds of exports depend on scripts in
 _/usr/share/gitted/export/_. It is quite easy to write new ones
-(application data, for example) as Gitted provides like a framework for
+(application data, for example) as Gitted provides a framework for
 it. The magic is about the easiness and interoperability to handle the
-whole thing, compared to the complexity.
+whole thing, once all particular in/out exchange have been coded
+separately.
