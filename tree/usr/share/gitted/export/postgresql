@@ -10,7 +10,7 @@
 [ -z "$GITTED_DATA_PATH" ] && nef_fatal "missing variable: GITTED_DATA_PATH"
 [ -z "$GITTED_POSTGRESQL_DATABASE" ] && nef_fatal "missing variable: GITTED_POSTGRESQL_DATABASE"
 
-# Allowed GITTED_POSTGRESQL_FORMAT values: bson, json, csv
+# Allowed GITTED_POSTGRESQL_FORMAT values: sql
 [ -z "$GITTED_POSTGRESQL_FORMAT" ] && GITTED_POSTGRESQL_FORMAT=sql
 
 
@@ -56,7 +56,7 @@ if [ $new_ops -eq 0 ]; then
             _pg_dump $GITTED_POSTGRESQL_DATABASE --exclude-table='*'  $_common_opts \
                 > "$GIT_WORK_TREE/$GITTED_DATA_PATH/database.sql" \
                 || nef_fatal "pg_dump failed for database objects (tables excluded)"
-            nef_log "Export database objects (tables excluded) into: database.sql"
+            nef_log "Exported database objects (tables excluded) into: database.sql"
 
             for table in $tables; do
                 # Schema

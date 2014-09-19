@@ -38,7 +38,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
     # Execute general SQL
     uuid=$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH/database.sql | sed -r 's/.* blob ([^\t]+).*/\1/')
     if [ -n "$uuid" ]; then
-        git cat-file -p $uuid | _psql -d $GITTED_POSTGRESQL_DATABASE 2>&1 | nef_log_pipe "database.sql"
+        git cat-file -p $uuid | _psql -d $GITTED_POSTGRESQL_DATABASE 2>&1 | nef_log_pipe "database.sql:"
     fi
 
     # Read entries and import tables' structure and data
