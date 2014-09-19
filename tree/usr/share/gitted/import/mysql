@@ -52,7 +52,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
         for uuid in $data_uuids; do
             git cat-file -p $uuid >$_dir/${data_names[$uuid]}
         done
-        mysqlimport $_dir/* || nef_fatal "mysqlimport failed"
+        mysqlimport $GITTED_MYSQL_DATABASE $_dir/* || nef_fatal "mysqlimport failed"
         rm -rf $_dir
     )
 
