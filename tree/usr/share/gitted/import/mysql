@@ -8,14 +8,6 @@
 [ -z "$GITTED_MYSQL_DATABASE" ] && nef_fatal "missing variable: GITTED_MYSQL_DATABASE"
 [ -z "$GITTED_MYSQL_USER" ] && GITTED_MYSQL_USER=postgres
 
-_psql() {
-    sudo -u postgres psql \
-        -X \
-        --pset border=0 --pset format=unaligned --pset tuples_only \
-        "$@" \
-        || nef_fatal "psql failed with status $? with args: $*"
-}
-
 state_ref=$(gitted_state_ref_name mysql)
 state_commit=$(git show-ref -s $state_ref)
 state_tree=
@@ -36,7 +28,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
         echo "DROP DATABASE $GITTED_MYSQL_DATABASE" | mysql \
             || nef_fatal "could not drop database: $GITTED_MYSQL_DATABASE"
     fi
-    echo "CREATE DATABASE $GITTED_MYSQL_DATABASE;" | _psql
+    echo "CREATE DATABASE $GITTED_MYSQL_DATABASE;" | mysql
 
     # Read entries and import tables' structure and data
     git ls-tree $gitted_new_commit $GITTED_DATA_PATH/ | (
