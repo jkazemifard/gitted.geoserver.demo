@@ -20,12 +20,12 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
     nef_log "MySQL data has changed. Importing..."
 
     # (re-)create database
-    if echo "SHOW DATABASE;" | mysql $GITTED_MYSQL_DATABASE | head -n +2 \
+    if echo "SHOW DATABASES;" | mysql $GITTED_MYSQL_DATABASE | head -n +2 \
         | grep -q $GITTED_MYSQL_DATABASE; then
 
         nef_log "Database '$GITTED_MYSQL_DATABASE' exists: dropping..."
         service mysql restart >&2
-        echo "DROP DATABASE $GITTED_MYSQL_DATABASE" | mysql \
+        echo "DROP DATABASE $GITTED_MYSQL_DATABASES" | mysql \
             || nef_fatal "could not drop database: $GITTED_MYSQL_DATABASE"
     fi
     echo "CREATE DATABASE $GITTED_MYSQL_DATABASE;" | mysql
@@ -46,7 +46,6 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
             fi
         done
         _dir=$(mktemp -d)
-        mkdir $_dir
         chgrp mysql $_dir
         chmod +w $_dir
         for uuid in $data_uuids; do
