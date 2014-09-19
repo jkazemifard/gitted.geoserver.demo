@@ -47,7 +47,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
         done
         _dir=$(mktemp -d)
         chgrp mysql $_dir
-        chmod +w $_dir
+        chmod g+rwx $_dir
         for uuid in $data_uuids; do
             git cat-file -p $uuid >$_dir/${data_names[$uuid]}
         done
