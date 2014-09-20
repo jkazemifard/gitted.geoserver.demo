@@ -30,7 +30,7 @@ if [ "$state_tree" != "$(git ls-tree $gitted_new_commit $GITTED_DATA_PATH)" ]; t
     # fi
 
     echo "CREATE DATABASE IF NOT EXISTS $GITTED_MYSQL_DATABASE;" | mysql
-    tables=$(echo "SHOW TABLES;" | mysql $GITTED_MYSQL_DATABASE | head -n +2)
+    tables=$(echo "SHOW TABLES;" | mysql $GITTED_MYSQL_DATABASE | tail -n +2)
     for table in $tables; do
         echo "DROP TABLE $table" | mysql $GITTED_MYSQL_DATABASE
     done
