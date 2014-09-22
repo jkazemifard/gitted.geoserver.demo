@@ -6,10 +6,9 @@
 . /usr/share/gitted/export.init.bash || exit 2
 
 [ -z "$GITTED_DATA_PATH" ] && nef_fatal "missing variable: GITTED_DATA_PATH"
-[ -z "$GITTED_NAME" ] && nef_fatal "missing variable: GITTED_NAME"
 [ -z "$GITTED_WORKING_TREE" ] && nef_fatal "missing variable: GITTED_WORKING_TREE"
 
-state_ref=$(gitted_state_ref_name $GITTED_NAME)
+state_ref=$(gitted_state_ref_name $GITTED_WORKING_TREE)
 
 if [ -d $GITTED_WORKING_TREE/.git ]; then
 
