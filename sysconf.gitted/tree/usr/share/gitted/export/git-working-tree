@@ -39,9 +39,18 @@ if [ -d $GITTED_WORKING_TREE/.git ]; then
             nef_cmd --log-prefix git-checkout-index -- git checkout-index -u -a
             nef_log "Done cloning."
 
-            nef_log "Executing: git subtree pull -P '$GITTED_DATA_PATH' $GITTED_WORKING_TREE master"
-            nef_cmd --log-prefix git-subtree -- git subtree pull -P $GITTED_DATA_PATH $GITTED_WORKING_TREE master \
+            # commit=$(git subtree split -P $GITTED_DATA_PATH)
+            # nef_log "split commit: $commit"
+            # git fetch $GITTED_WORKING_TREE master
+            # git rebase $commit FETCH_HEAD
+            nef_log "Executing: git fetch $GITTED_WORKING_TREE master"
+            nef_cmd --log-prefix git-fetch -- git fetch $GITTED_WORKING_TREE master
+            nef_log "Executing: git subtree merge -P '$GITTED_DATA_PATH' FETCH_HEAD"
+            nef_cmd --log-prefix git-subtree -- git subtree merge -P $GITTED_DATA_PATH FETCH_HEAD \
                 -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
+            # nef_log "Executing: git subtree pull -P '$GITTED_DATA_PATH' $GITTED_WORKING_TREE master"
+            # nef_cmd --log-prefix git-subtree -- git subtree pull -P $GITTED_DATA_PATH $GITTED_WORKING_TREE master \
+            #     -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
             nef_cmd --log-prefix git-push -- git push $local_git_dir master
             nef_log "Done pushing back the merge to: $local_git_dir <master>"
 
