@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Export script for gitted /repository.local.git, branch "master"
+#
+# This script is responsible for making Git commits and updating branch refs
+# to reflect the new state of the system, if that has changed.
+#
+
+source /etc/gitted/sync/defs
+
+GITTED_DATA_PATH=sysconf /usr/share/gitted/export/sysconf
