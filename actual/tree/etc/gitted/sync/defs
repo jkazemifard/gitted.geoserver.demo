@@ -1,0 +1,4 @@
+# /etc/gitted/sync/defs -- common defitions for import/export scripts -*- shell-script -*-
+#
+
+export GITTED_GEOSERVER_DATA_PATH=/var/lib/tomcat7/webapps/geoserver/data
