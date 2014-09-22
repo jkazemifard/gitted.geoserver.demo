@@ -28,13 +28,21 @@ more information.
 ```
 git clone https://github.com/jfgigand/gitted.geoserver.demo.git
 cd gitted.geoserver.demo
-sysconf/gitted-client register && sysconf/gitted-client add geoserver-demo
+sysconf/gitted-client register
+sysconf/gitted-client add geoserver-demo
 git push geoserver-demo master
 ```
 
 The last command creates the LXC container ```geoserver-demo```,
 install GeoServer and the required packages (from ```sysconf/```) and
 import the data.
+
+* Open the URL ```<IP>:8080/geoserver``` on your browser (get the
+  container IP from the ```git push``` messages or with ```lxc-ls
+  -f``` .
+
+* Log as : *admin* / *geoserver*
+
 
 
 ### Export / backup changes
