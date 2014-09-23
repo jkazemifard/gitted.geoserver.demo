@@ -8,8 +8,17 @@
 #
 _packages=
 _packages="$_packages tomcat7 unzip"
+_packages="$_packages postgresql-9.1 postgresql-9.1-postgis"
 sysconf_require_packages $_packages
 
+
+local _pg_config=/etc/postgresql/9.1/main/postgresql.conf
+if [ -f $_pg_config ]; then
+    rm -f $_pg_config
+    echo "Setting symlink for: $_pg_config"
+    ln -s ../../../postgresql-common/postgresql.conf $_pg_config
+    service postgresql restart
+fi
 
 ################################################################################
 # Install GeoServer WAR file on tomcat
