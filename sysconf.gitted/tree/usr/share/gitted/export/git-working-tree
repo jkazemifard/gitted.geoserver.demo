@@ -43,11 +43,14 @@ if [ -d $GITTED_WORKING_TREE/.git ]; then
             # nef_log "split commit: $commit"
             # git fetch $GITTED_WORKING_TREE master
             # git rebase $commit FETCH_HEAD
+            temp_branch=$(date +T%s)
+            nef_cmd --log-prefix git-subtree-split -- git subtree split -P $GITTED_DATA_PATH --rejoin -b $temp_branch
+            # nef_cmd --log-prefix git-fetch -- git fetch $GITTED_WORKING_TREE master
             nef_log "Executing: git fetch $GITTED_WORKING_TREE master"
             nef_cmd --log-prefix git-fetch -- git fetch $GITTED_WORKING_TREE master
             nef_log "Executing: git subtree merge -P '$GITTED_DATA_PATH' FETCH_HEAD"
             nef_cmd --log-prefix git-subtree -- git subtree merge -P $GITTED_DATA_PATH FETCH_HEAD \
-                --squash -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
+                -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
             # nef_log "Executing: git subtree pull -P '$GITTED_DATA_PATH' $GITTED_WORKING_TREE master"
             # nef_cmd --log-prefix git-subtree -- git subtree pull -P $GITTED_DATA_PATH $GITTED_WORKING_TREE master \
             #     -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
