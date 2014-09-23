@@ -15,7 +15,7 @@ SET default_tablespace = '';
 SET default_with_oids = true;
 
 --
--- Name: geometry_columns; Type: TABLE; Schema: public; Owner: aire; Tablespace: 
+-- Name: geometry_columns; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE geometry_columns (
@@ -29,10 +29,10 @@ CREATE TABLE geometry_columns (
 );
 
 
-ALTER TABLE public.geometry_columns OWNER TO aire;
+ALTER TABLE public.geometry_columns OWNER TO postgres;
 
 --
--- Name: geometry_columns_pk; Type: CONSTRAINT; Schema: public; Owner: aire; Tablespace: 
+-- Name: geometry_columns_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY geometry_columns
