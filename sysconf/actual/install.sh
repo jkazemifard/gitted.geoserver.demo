@@ -18,6 +18,8 @@ if [ -f $_pg_config ]; then
     echo "Setting symlink for: $_pg_config"
     ln -s ../../../postgresql-common/postgresql.conf $_pg_config
     service postgresql restart
+    # postgres / postgres
+    echo "ALTER ROLE postgres ENCRYPTED PASSWORD 'md53175bce1d3201d16594cebf9d7eb3f9d'" | sudo -u postgres psql
 fi
 
 ################################################################################
