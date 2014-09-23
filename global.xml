@@ -1,13 +1,19 @@
 <global>
-  <contact>
-    <addressCity>Alexandria</addressCity>
-    <addressCountry>Egypt</addressCountry>
-    <addressType>Work</addressType>
-    <contactEmail>claudius.ptolomaeus@gmail.com</contactEmail>
-    <contactOrganization>The ancient geographes INC</contactOrganization>
-    <contactPerson>Claudius Ptolomaeus</contactPerson>
-    <contactPosition>Chief geographer</contactPosition>
-  </contact>
+  <settings>
+    <id>SettingsInfoImpl-15edb57b:1489fa69784:-8000</id>
+    <contact>
+      <address>https://github.com/geonef/gitted.geoserver.demo</address>
+      <contactEmail>jf@geonef.fr</contactEmail>
+      <contactOrganization>(Geonef) GeoServer Gitted-install with demo data</contactOrganization>
+      <contactPerson>Jean-François Gigand</contactPerson>
+    </contact>
+    <charset>UTF-8</charset>
+    <numDecimals>8</numDecimals>
+    <onlineResource>http://geoserver.org</onlineResource>
+    <verbose>false</verbose>
+    <verboseExceptions>false</verboseExceptions>
+    <localWorkspaceIncludesPrefix>false</localWorkspaceIncludesPrefix>
+  </settings>
   <jai>
     <allowInterpolation>false</allowInterpolation>
     <recycling>false</recycling>
@@ -27,12 +33,7 @@
     <queueType>UNBOUNDED</queueType>
     <imageIOCacheThreshold>10240</imageIOCacheThreshold>
   </coverageAccess>
-  <charset>UTF-8</charset>
-  <numDecimals>8</numDecimals>
-  <onlineResource>http://geoserver.org</onlineResource>
-  <verbose>false</verbose>
-  <verboseExceptions>false</verboseExceptions>
-  <updateSequence>78</updateSequence>
+  <updateSequence>79</updateSequence>
   <featureTypeCacheSize>0</featureTypeCacheSize>
   <globalServices>true</globalServices>
   <xmlPostRequestLogBufferSize>1024</xmlPostRequestLogBufferSize>
