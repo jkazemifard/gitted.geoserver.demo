@@ -11,7 +11,7 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
--- Data for Name: info_nuts2006; Type: TABLE DATA; Schema: public; Owner: aire
+-- Data for Name: info_nuts2006; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY info_nuts2006 (ogc_fid, wkb_geometry, id, name, nuts0, nuts1, nuts2, nuts23, nuts3, zoning) FROM stdin;
@@ -1946,7 +1946,7 @@ COPY info_nuts2006 (ogc_fid, wkb_geometry, id, name, nuts0, nuts1, nuts2, nuts23
 
 
 --
--- Name: info_nuts2006_ogc_fid_seq; Type: SEQUENCE SET; Schema: public; Owner: aire
+-- Name: info_nuts2006_ogc_fid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('info_nuts2006_ogc_fid_seq', 1927, true);

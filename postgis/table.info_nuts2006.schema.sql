@@ -15,7 +15,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: info_nuts2006; Type: TABLE; Schema: public; Owner: aire; Tablespace: 
+-- Name: info_nuts2006; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE info_nuts2006 (
@@ -34,10 +34,10 @@ CREATE TABLE info_nuts2006 (
 );
 
 
-ALTER TABLE public.info_nuts2006 OWNER TO aire;
+ALTER TABLE public.info_nuts2006 OWNER TO postgres;
 
 --
--- Name: info_nuts2006_ogc_fid_seq; Type: SEQUENCE; Schema: public; Owner: aire
+-- Name: info_nuts2006_ogc_fid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE info_nuts2006_ogc_fid_seq
@@ -48,24 +48,24 @@ CREATE SEQUENCE info_nuts2006_ogc_fid_seq
     CACHE 1;
 
 
-ALTER TABLE public.info_nuts2006_ogc_fid_seq OWNER TO aire;
+ALTER TABLE public.info_nuts2006_ogc_fid_seq OWNER TO postgres;
 
 --
--- Name: info_nuts2006_ogc_fid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aire
+-- Name: info_nuts2006_ogc_fid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE info_nuts2006_ogc_fid_seq OWNED BY info_nuts2006.ogc_fid;
 
 
 --
--- Name: ogc_fid; Type: DEFAULT; Schema: public; Owner: aire
+-- Name: ogc_fid; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY info_nuts2006 ALTER COLUMN ogc_fid SET DEFAULT nextval('info_nuts2006_ogc_fid_seq'::regclass);
 
 
 --
--- Name: info_nuts2006_pk; Type: CONSTRAINT; Schema: public; Owner: aire; Tablespace: 
+-- Name: info_nuts2006_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY info_nuts2006
@@ -73,7 +73,7 @@ ALTER TABLE ONLY info_nuts2006
 
 
 --
--- Name: info_nuts2006_geom_idx; Type: INDEX; Schema: public; Owner: aire; Tablespace: 
+-- Name: info_nuts2006_geom_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX info_nuts2006_geom_idx ON info_nuts2006 USING gist (wkb_geometry);

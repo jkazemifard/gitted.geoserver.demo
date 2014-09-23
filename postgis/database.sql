@@ -9,14 +9,14 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -11234,15 +11234,6 @@ CREATE OPERATOR ~= (
 ALTER OPERATOR public.~= (geometry, geometry) OWNER TO postgres;
 
 --
--- Name: btree_geography_ops; Type: OPERATOR FAMILY; Schema: public; Owner: postgres
---
-
-CREATE OPERATOR FAMILY btree_geography_ops USING btree;
-
-
-ALTER OPERATOR FAMILY public.btree_geography_ops USING btree OWNER TO postgres;
-
---
 -- Name: btree_geography_ops; Type: OPERATOR CLASS; Schema: public; Owner: postgres
 --
 
@@ -11259,15 +11250,6 @@ CREATE OPERATOR CLASS btree_geography_ops
 ALTER OPERATOR CLASS public.btree_geography_ops USING btree OWNER TO postgres;
 
 --
--- Name: btree_geometry_ops; Type: OPERATOR FAMILY; Schema: public; Owner: postgres
---
-
-CREATE OPERATOR FAMILY btree_geometry_ops USING btree;
-
-
-ALTER OPERATOR FAMILY public.btree_geometry_ops USING btree OWNER TO postgres;
-
---
 -- Name: btree_geometry_ops; Type: OPERATOR CLASS; Schema: public; Owner: postgres
 --
 
@@ -11282,15 +11264,6 @@ CREATE OPERATOR CLASS btree_geometry_ops
 
 
 ALTER OPERATOR CLASS public.btree_geometry_ops USING btree OWNER TO postgres;
-
---
--- Name: gist_geography_ops; Type: OPERATOR FAMILY; Schema: public; Owner: postgres
---
-
-CREATE OPERATOR FAMILY gist_geography_ops USING gist;
-
-
-ALTER OPERATOR FAMILY public.gist_geography_ops USING gist OWNER TO postgres;
 
 --
 -- Name: gist_geography_ops; Type: OPERATOR CLASS; Schema: public; Owner: postgres
@@ -11310,15 +11283,6 @@ CREATE OPERATOR CLASS gist_geography_ops
 
 
 ALTER OPERATOR CLASS public.gist_geography_ops USING gist OWNER TO postgres;
-
---
--- Name: gist_geometry_ops; Type: OPERATOR FAMILY; Schema: public; Owner: postgres
---
-
-CREATE OPERATOR FAMILY gist_geometry_ops USING gist;
-
-
-ALTER OPERATOR FAMILY public.gist_geometry_ops USING gist OWNER TO postgres;
 
 --
 -- Name: gist_geometry_ops; Type: OPERATOR CLASS; Schema: public; Owner: postgres
@@ -11353,133 +11317,133 @@ ALTER OPERATOR CLASS public.gist_geometry_ops USING gist OWNER TO postgres;
 SET search_path = pg_catalog;
 
 --
--- Name: CAST (public.box2d AS public.box3d); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box2d AS public.box3d); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box2d AS public.box3d) WITH FUNCTION public.box3d(public.box2d) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box2d AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box2d AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box2d AS public.geometry) WITH FUNCTION public.geometry(public.box2d) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box3d AS box); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box3d AS box); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box3d AS box) WITH FUNCTION public.box(public.box3d) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box3d AS public.box2d); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box3d AS public.box2d); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box3d AS public.box2d) WITH FUNCTION public.box2d(public.box3d) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box3d AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box3d AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box3d AS public.geometry) WITH FUNCTION public.geometry(public.box3d) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box3d_extent AS public.box2d); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box3d_extent AS public.box2d); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box3d_extent AS public.box2d) WITH FUNCTION public.box2d(public.box3d_extent) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box3d_extent AS public.box3d); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box3d_extent AS public.box3d); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box3d_extent AS public.box3d) WITH FUNCTION public.box3d_extent(public.box3d_extent) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.box3d_extent AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.box3d_extent AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.box3d_extent AS public.geometry) WITH FUNCTION public.geometry(public.box3d_extent) AS IMPLICIT;
 
 
 --
--- Name: CAST (bytea AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (bytea AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (bytea AS public.geometry) WITH FUNCTION public.geometry(bytea) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.chip AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.chip AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.chip AS public.geometry) WITH FUNCTION public.geometry(public.chip) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geography AS public.geography); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geography AS public.geography); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geography AS public.geography) WITH FUNCTION public.geography(public.geography, integer, boolean) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geography AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geography AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geography AS public.geometry) WITH FUNCTION public.geometry(public.geography);
 
 
 --
--- Name: CAST (public.geometry AS box); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geometry AS box); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geometry AS box) WITH FUNCTION public.box(public.geometry) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geometry AS public.box2d); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geometry AS public.box2d); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geometry AS public.box2d) WITH FUNCTION public.box2d(public.geometry) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geometry AS public.box3d); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geometry AS public.box3d); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geometry AS public.box3d) WITH FUNCTION public.box3d(public.geometry) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geometry AS bytea); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geometry AS bytea); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geometry AS bytea) WITH FUNCTION public.bytea(public.geometry) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geometry AS public.geography); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geometry AS public.geography); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geometry AS public.geography) WITH FUNCTION public.geography(public.geometry) AS IMPLICIT;
 
 
 --
--- Name: CAST (public.geometry AS text); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (public.geometry AS text); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (public.geometry AS text) WITH FUNCTION public.text(public.geometry) AS IMPLICIT;
 
 
 --
--- Name: CAST (text AS public.geometry); Type: CAST; Schema: pg_catalog; Owner:
+-- Name: CAST (text AS public.geometry); Type: CAST; Schema: pg_catalog; Owner: 
 --
 
 CREATE CAST (text AS public.geometry) WITH FUNCTION public.geometry(text) AS IMPLICIT;
@@ -11498,3 +11462,4 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
+

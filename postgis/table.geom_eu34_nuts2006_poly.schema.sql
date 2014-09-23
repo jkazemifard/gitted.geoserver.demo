@@ -15,7 +15,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: geom_eu34_nuts2006_poly; Type: TABLE; Schema: public; Owner: aire; Tablespace: 
+-- Name: geom_eu34_nuts2006_poly; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE geom_eu34_nuts2006_poly (
@@ -27,10 +27,10 @@ CREATE TABLE geom_eu34_nuts2006_poly (
 );
 
 
-ALTER TABLE public.geom_eu34_nuts2006_poly OWNER TO aire;
+ALTER TABLE public.geom_eu34_nuts2006_poly OWNER TO postgres;
 
 --
--- Name: geom_eu34_nuts2006_poly_ogc_fid_seq; Type: SEQUENCE; Schema: public; Owner: aire
+-- Name: geom_eu34_nuts2006_poly_ogc_fid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE geom_eu34_nuts2006_poly_ogc_fid_seq
@@ -41,24 +41,24 @@ CREATE SEQUENCE geom_eu34_nuts2006_poly_ogc_fid_seq
     CACHE 1;
 
 
-ALTER TABLE public.geom_eu34_nuts2006_poly_ogc_fid_seq OWNER TO aire;
+ALTER TABLE public.geom_eu34_nuts2006_poly_ogc_fid_seq OWNER TO postgres;
 
 --
--- Name: geom_eu34_nuts2006_poly_ogc_fid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aire
+-- Name: geom_eu34_nuts2006_poly_ogc_fid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE geom_eu34_nuts2006_poly_ogc_fid_seq OWNED BY geom_eu34_nuts2006_poly.ogc_fid;
 
 
 --
--- Name: ogc_fid; Type: DEFAULT; Schema: public; Owner: aire
+-- Name: ogc_fid; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY geom_eu34_nuts2006_poly ALTER COLUMN ogc_fid SET DEFAULT nextval('geom_eu34_nuts2006_poly_ogc_fid_seq'::regclass);
 
 
 --
--- Name: geom_eu34_nuts2006_poly_pk; Type: CONSTRAINT; Schema: public; Owner: aire; Tablespace: 
+-- Name: geom_eu34_nuts2006_poly_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY geom_eu34_nuts2006_poly
@@ -66,7 +66,7 @@ ALTER TABLE ONLY geom_eu34_nuts2006_poly
 
 
 --
--- Name: geom_eu34_nuts2006_poly_geom_idx; Type: INDEX; Schema: public; Owner: aire; Tablespace: 
+-- Name: geom_eu34_nuts2006_poly_geom_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX geom_eu34_nuts2006_poly_geom_idx ON geom_eu34_nuts2006_poly USING gist (wkb_geometry);
