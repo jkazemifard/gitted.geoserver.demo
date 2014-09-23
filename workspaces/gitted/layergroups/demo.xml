@@ -12,7 +12,9 @@
     </published>
   </publishables>
   <styles>
-    <style/>
+    <style>
+      <id>StyleInfoImpl--570ae188:124761b8d78:-7fe0</id>
+    </style>
   </styles>
   <bounds>
     <minx>2641758.25</minx>
