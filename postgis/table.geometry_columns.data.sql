@@ -24,3 +24,4 @@ COPY geometry_columns (f_table_catalog, f_table_schema, f_table_name, f_geometry
 --
 -- PostgreSQL database dump complete
 --
+
