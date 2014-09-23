@@ -3,6 +3,8 @@
 # GITTED IMPORT: GIT files -> SYSCONF
 #
 
+# exec /usr/share/gitted/git-working-tree "$@"
+
 . /usr/share/gitted/import.init.bash || exit 2
 
 [ -z "$GITTED_DATA_PATH" ] && nef_fatal "missing variable: GITTED_DATA_PATH"

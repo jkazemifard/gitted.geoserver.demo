@@ -47,7 +47,7 @@ if [ -d $GITTED_WORKING_TREE/.git ]; then
             nef_cmd --log-prefix git-fetch -- git fetch $GITTED_WORKING_TREE master
             nef_log "Executing: git subtree merge -P '$GITTED_DATA_PATH' FETCH_HEAD"
             nef_cmd --log-prefix git-subtree -- git subtree merge -P $GITTED_DATA_PATH FETCH_HEAD \
-                -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
+                --squash -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
             # nef_log "Executing: git subtree pull -P '$GITTED_DATA_PATH' $GITTED_WORKING_TREE master"
             # nef_cmd --log-prefix git-subtree -- git subtree pull -P $GITTED_DATA_PATH $GITTED_WORKING_TREE master \
             #     -m "Automatic merge (git-subtree pull) by $0 on $(hostname)"
