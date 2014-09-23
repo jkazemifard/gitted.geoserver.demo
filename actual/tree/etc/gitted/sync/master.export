@@ -15,3 +15,7 @@ GITTED_DATA_PATH=geoserver \
     GITTED_AUTO_COMMIT=yes \
     GITTED_AUTO_ADD=yes \
     /usr/share/gitted/export/git-subtree
+
+GITTED_DATA_PATH=postgis \
+    GITTED_POSTGRESQL_DATABASE=postgis \
+    /usr/share/gitted/export/postgresql

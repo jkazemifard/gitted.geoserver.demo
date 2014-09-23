@@ -13,3 +13,7 @@ GITTED_DATA_PATH=sysconf /usr/share/gitted/import/sysconf
 GITTED_DATA_PATH=geoserver \
     GITTED_WORKING_TREE=$GITTED_GEOSERVER_DATA_PATH \
     /usr/share/gitted/import/git-subtree
+
+GITTED_DATA_PATH=postgis \
+    GITTED_POSTGRESQL_DATABASE=postgis \
+    /usr/share/gitted/import/postgresql
