@@ -1,0 +1,24 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl-9e05d52:148a06fc4a0:-7ff7</id>
+  <name>demo</name>
+  <mode>SINGLE</mode>
+  <title>Gitted Demo</title>
+  <workspace>
+    <id>WorkspaceInfoImpl-9e05d52:148a06fc4a0:-8000</id>
+  </workspace>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl-9e05d52:148a06fc4a0:-7ffc</id>
+    </published>
+  </publishables>
+  <styles>
+    <style/>
+  </styles>
+  <bounds>
+    <minx>2641758.25</minx>
+    <maxx>7282146.0</maxx>
+    <miny>1352640.25</miny>
+    <maxy>5003219.5</maxy>
+    <crs class="projected">EPSG:3035</crs>
+  </bounds>
+</layerGroup>
