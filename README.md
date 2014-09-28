@@ -26,7 +26,7 @@ system. See [Gitted](https://github.com/geonef/sysconf.gitted) for
 more information.
 
 ```
-git clone https://github.com/jfgigand/gitted.geoserver.demo.git
+git clone https://github.com/geonef/gitted.geoserver.demo.git
 cd gitted.geoserver.demo
 sysconf/gitted-client register
 sysconf/gitted-client add geoserver-demo
