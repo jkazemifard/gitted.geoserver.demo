@@ -34,7 +34,7 @@ if [ ! -f $war_dest_dir/$war_file ]; then
     zip_file=$(mktemp)
 
     nef_log "Downloading: $geoserver_war_zip_url"
-    curl $geoserver_war_zip_url >$zip_file || nef_fatal "could not download geoserver"
+    curl -L $geoserver_war_zip_url >$zip_file || nef_fatal "could not download geoserver"
     cd $tmp_dir
     unzip $zip_file || nef_fatal "could not unzip GeoServer archive"
     mv $war_file $war_dest_dir || nef_fatal "could not install geoserver.war into: $war_dest_dir"
