@@ -3,9 +3,9 @@
     <id>SettingsInfoImpl-15edb57b:1489fa69784:-8000</id>
     <contact>
       <address>https://github.com/geonef/gitted.geoserver.demo</address>
-      <contactEmail>jf@geonef.fr</contactEmail>
-      <contactOrganization>(Geonef) GeoServer Gitted-install with demo data</contactOrganization>
-      <contactPerson>Jean-François Gigand</contactPerson>
+      <contactEmail>julien.kazemif@cegetel.net</contactEmail>
+      <contactOrganization>ESIPE</contactOrganization>
+      <contactPerson>Julien Kazemifard</contactPerson>
     </contact>
     <charset>UTF-8</charset>
     <numDecimals>8</numDecimals>
@@ -33,7 +33,7 @@
     <queueType>UNBOUNDED</queueType>
     <imageIOCacheThreshold>10240</imageIOCacheThreshold>
   </coverageAccess>
-  <updateSequence>110</updateSequence>
+  <updateSequence>111</updateSequence>
   <featureTypeCacheSize>0</featureTypeCacheSize>
   <globalServices>true</globalServices>
   <xmlPostRequestLogBufferSize>1024</xmlPostRequestLogBufferSize>
